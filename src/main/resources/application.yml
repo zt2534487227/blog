@@ -1,0 +1,13 @@
+zt:
+  datasource:
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    entity-packages: com.zt.blog.model
+    dao-packages: com.zt.blog.dao
+    mapperLocations: classpath:mapping/*.xml
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    tx-aop-expression: execution(* com.zt.blog.service.*.*Service*.*(..))
+server:
+  port: 8080
