@@ -1,10 +1,12 @@
 package com.zt.blog.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -15,6 +17,7 @@ import java.io.Serializable;
  * @since 2018-09-03
  */
 @TableName("t_collection")
+@Alias("t_collection")
 public class Collection implements Serializable {
 
     private static final long serialVersionUID = 1L;

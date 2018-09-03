@@ -14,7 +14,7 @@ import org.springframework.stereotype.Controller;
  * @since 2018-09-03
  */
 @Controller
-@RequestMapping("/collection")
+@RequestMapping("/blog/collection")
 public class CollectionController {
 
 }

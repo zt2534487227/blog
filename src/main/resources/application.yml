@@ -5,9 +5,11 @@ zt:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     entity-packages: com.zt.blog.model
-    dao-packages: com.zt.blog.dao
     mapperLocations: classpath:mapping/*.xml
     driver-class-name: com.mysql.cj.jdbc.Driver
     tx-aop-expression: execution(* com.zt.blog.service.*.*Service*.*(..))
 server:
   port: 8080
+spring:
+  application:
+    name: blog

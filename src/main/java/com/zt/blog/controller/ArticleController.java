@@ -2,8 +2,7 @@ package com.zt.blog.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -13,9 +12,10 @@ import org.springframework.stereotype.Controller;
  * @author ZhouTian
  * @since 2018-09-03
  */
-@Controller
-@RequestMapping("/article")
+@RestController
+@RequestMapping("blog/article")
 public class ArticleController {
+
 
 }
 
