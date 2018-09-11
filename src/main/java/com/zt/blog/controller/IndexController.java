@@ -14,6 +14,6 @@ public class IndexController {
 
     @RequestMapping("/")
     public String index(){
-        return "Hello,weclome to My Blog";
+        return "Hello,Welcome to zt Blog";
     }
 }
