@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-03
+ * @since 2018-09-17
  */
 @TableName("t_user")
 public class User implements Serializable {

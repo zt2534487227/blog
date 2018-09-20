@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-03
+ * @since 2018-09-17
  */
 @TableName("t_category")
 public class Category implements Serializable {
@@ -35,7 +35,7 @@ public class Category implements Serializable {
     /**
      * 状态（1：有效，2：无效）
      */
-    private Integer status;
+    private Integer categoryStatus;
     /**
      * 创建时间
      */
@@ -70,12 +70,12 @@ public class Category implements Serializable {
         this.index = index;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getCategoryStatus() {
+        return categoryStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCategoryStatus(Integer categoryStatus) {
+        this.categoryStatus = categoryStatus;
     }
 
     public Date getCreatTime() {
@@ -100,7 +100,7 @@ public class Category implements Serializable {
         ", id=" + id +
         ", name=" + name +
         ", index=" + index +
-        ", status=" + status +
+        ", categoryStatus=" + categoryStatus +
         ", creatTime=" + creatTime +
         ", version=" + version +
         "}";

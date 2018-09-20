@@ -3,8 +3,6 @@ package com.zt.blog.common.entity;
 import com.zt.blog.common.constant.StatusCode;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 
 public class Result<T> implements Serializable{
@@ -23,17 +21,9 @@ public class Result<T> implements Serializable{
      */
 	private String msg;
     /**
-     * 附加数据
+     * 返回数据
      */
 	private T data = null;
-    /**
-     * 列表数据
-     */
-	private List<T> itemList;
-    /**
-     * map 数据
-     */
-	private Map<String, Object> attributes;
 
 	public Result() {
 
@@ -103,22 +93,6 @@ public class Result<T> implements Serializable{
 		this.data = data;
 	}
 
-	public List<T> getItemList() {
-		return itemList;
-	}
-
-	public void setItemList(List<T> itemList) {
-		this.itemList = itemList;
-	}
-
-	public Map<String, Object> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(Map<String, Object> attributes) {
-		this.attributes = attributes;
-	}
-
 
     @Override
     public String toString() {
@@ -127,8 +101,6 @@ public class Result<T> implements Serializable{
         sb.append(", code='").append(code).append('\'');
         sb.append(", msg='").append(msg).append('\'');
         sb.append(", data=").append(data);
-        sb.append(", itemList=").append(itemList);
-        sb.append(", attributes=").append(attributes);
         sb.append('}');
         return sb.toString();
     }

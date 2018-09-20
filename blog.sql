@@ -1,20 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : localhost
-Source Server Version : 50640
-Source Host           : localhost:3306
-Source Database       : blog
-
-Target Server Type    : MYSQL
-Target Server Version : 50640
-File Encoding         : 65001
-
-Date: 2018-09-03 14:31:38
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
-
 -- ----------------------------
 -- Table structure for t_article
 -- ----------------------------
@@ -22,7 +5,7 @@ DROP TABLE IF EXISTS `t_article`;
 CREATE TABLE `t_article` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id，自增长',
   `title` varchar(200) NOT NULL COMMENT '标题',
-  `desc` varchar(400) DEFAULT NULL COMMENT '博客摘要',
+  `digest` varchar(400) DEFAULT NULL COMMENT '博客摘要',
   `content` text COMMENT '文章内容',
   `categoryId` int(10) NOT NULL COMMENT '分类id',
   `tags` varchar(255) DEFAULT NULL COMMENT '标签（多个用","分隔）',
@@ -31,11 +14,34 @@ CREATE TABLE `t_article` (
   `ckickHit` int(10) DEFAULT NULL COMMENT '点击数',
   `replyHit` int(10) DEFAULT NULL COMMENT '评论数',
   `showMode` int(1) DEFAULT NULL COMMENT '文章模式（1：公开，2：私有）',
-  `status` int(1) DEFAULT NULL COMMENT '状态',
-  `creatTime` datetime DEFAULT NULL COMMENT '创建时间',
-  `version` datetime DEFAULT NULL COMMENT '版本号',
+  `articleStatus` int(1) DEFAULT NULL COMMENT '状态',
+  `creatTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章表';
+
+-- ----------------------------
+-- Records of t_article
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_attach
+-- ----------------------------
+DROP TABLE IF EXISTS `t_attach`;
+CREATE TABLE `t_attach` (
+  `id` varchar(36) NOT NULL COMMENT '主键，uuid',
+  `fileName` varchar(100) DEFAULT NULL COMMENT '文件名称',
+  `filePath` varchar(255) DEFAULT NULL COMMENT '文件路径',
+  `fileSize` decimal(10,2) DEFAULT NULL COMMENT '文件大小',
+  `fileType` varchar(50) DEFAULT NULL COMMENT '文件类型',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_attach
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_category
@@ -45,11 +51,15 @@ CREATE TABLE `t_category` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id，自增长',
   `name` varchar(100) NOT NULL COMMENT '分类名称',
   `index` int(3) DEFAULT NULL COMMENT '排序',
-  `status` int(1) NOT NULL DEFAULT '1' COMMENT '状态（1：有效，2：无效）',
-  `creatTime` datetime DEFAULT NULL COMMENT '创建时间',
-  `version` datetime DEFAULT NULL COMMENT '版本号',
+  `categoryStatus` int(1) NOT NULL DEFAULT '1' COMMENT '状态（1：有效，2：无效）',
+  `creatTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='分类表';
+
+-- ----------------------------
+-- Records of t_category
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_collection
@@ -66,6 +76,10 @@ CREATE TABLE `t_collection` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的收藏';
 
 -- ----------------------------
+-- Records of t_collection
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_comment
 -- ----------------------------
 DROP TABLE IF EXISTS `t_comment`;
@@ -80,11 +94,15 @@ CREATE TABLE `t_comment` (
   `treePath` varchar(255) DEFAULT NULL COMMENT '树形路径（如：0,1,2）',
   `commentTime` varchar(14) DEFAULT NULL COMMENT '评论时间',
   `isShow` int(1) DEFAULT '1' COMMENT '是否展示（1：是，2：否）',
-  `status` int(1) DEFAULT NULL COMMENT '状态',
-  `createTime` datetime DEFAULT NULL COMMENT '创建时间',
-  `version` datetime DEFAULT NULL COMMENT '版本号',
+  `commentStatus` int(1) DEFAULT NULL COMMENT '状态',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
+
+-- ----------------------------
+-- Records of t_comment
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_concern
@@ -95,10 +113,40 @@ CREATE TABLE `t_concern` (
   `userId` int(11) DEFAULT NULL COMMENT '用户id',
   `concernName` varchar(255) DEFAULT NULL COMMENT '关注的用户昵称',
   `concernId` int(11) DEFAULT NULL COMMENT '关注的用户id',
-  `createTime` datetime DEFAULT NULL COMMENT '关注时间',
-  `version` datetime DEFAULT NULL COMMENT '版本号',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '关注时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的关注';
+
+-- ----------------------------
+-- Records of t_concern
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `t_menu`;
+CREATE TABLE `t_menu` (
+  `id` int(10) NOT NULL,
+  `menuName` varchar(50) DEFAULT NULL COMMENT '菜单名称',
+  `showIndex` int(6) DEFAULT NULL COMMENT '排序',
+  `parentId` int(11) DEFAULT '0',
+  `treePath` varchar(255) DEFAULT NULL,
+  `menuStatus` int(1) DEFAULT '1' COMMENT '菜单状态（0：停用，1：启用）',
+  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_menu
+-- ----------------------------
+INSERT INTO `t_menu` VALUES ('1', '网站首页', '1', '0', '0,1', '1', '2018-09-18 14:16:53', '2018-09-18 14:16:55');
+INSERT INTO `t_menu` VALUES ('2', '技术杂谈', '2', '0', '0,2', '1', '2018-09-18 11:37:09', '2018-09-18 11:37:11');
+INSERT INTO `t_menu` VALUES ('3', '生活笔记', '3', '0', '0,3', '1', '2018-09-18 14:16:58', '2018-09-18 14:17:00');
+INSERT INTO `t_menu` VALUES ('4', '资源共享', '4', '0', '0,4', '1', '2018-09-18 14:17:03', '2018-09-18 14:17:06');
+INSERT INTO `t_menu` VALUES ('5', '留言板', '5', '0', '0,5', '1', '2018-09-18 14:17:09', '2018-09-18 14:17:11');
+INSERT INTO `t_menu` VALUES ('6', '关于我', '6', '0', '0,6', '1', '2018-09-18 14:17:16', '2018-09-18 14:17:19');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -125,11 +173,15 @@ CREATE TABLE `t_user` (
   `wxId` varchar(255) DEFAULT NULL COMMENT '微信标识',
   `qqId` varchar(255) DEFAULT NULL COMMENT 'qq标识',
   `sinaId` varchar(255) DEFAULT NULL COMMENT '新浪标识',
-  `userStatus` int(1) NOT NULL DEFAULT '2' COMMENT '用户状态（1：正常，2：审核中，3：冻结中，4：已注销）',
+  `userStatus` int(1) NOT NULL DEFAULT '1' COMMENT '用户状态（1：正常，2：审核中，3：冻结中，4：已注销）',
   `statusMemo` varchar(255) DEFAULT NULL COMMENT '状态说明',
   `loginIp` varchar(255) DEFAULT NULL COMMENT '登录ip',
   `loginTime` varchar(14) DEFAULT NULL COMMENT '登录日期',
-  `creatTime` datetime NOT NULL COMMENT '创建时间',
-  `version` datetime NOT NULL COMMENT '版本号',
+  `creatTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+-- ----------------------------
+-- Records of t_user
+-- ----------------------------

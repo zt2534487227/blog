@@ -7,14 +7,14 @@
         <id column="id" property="id" />
         <result column="name" property="name" />
         <result column="index" property="index" />
-        <result column="status" property="status" />
+        <result column="categoryStatus" property="categoryStatus" />
         <result column="creatTime" property="creatTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, index, status, creatTime, version
+        id, name, index, categoryStatus, creatTime, version
     </sql>
 
 </mapper>

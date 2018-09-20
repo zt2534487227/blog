@@ -1,10 +1,9 @@
 package com.zt.blog.model;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -12,24 +11,42 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-11
+ * @since 2018-09-17
  */
 @TableName("t_attach")
 public class Attach implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键，uuid
+     */
     private String id;
+    /**
+     * 文件名称
+     */
     private String fileName;
+    /**
+     * 文件路径
+     */
     private String filePath;
+    /**
+     * 文件大小
+     */
     private BigDecimal fileSize;
+    /**
+     * 文件类型
+     */
     private String fileType;
+    /**
+     * 创建时间
+     */
     private Date createTime;
+    /**
+     * 版本号
+     */
     private Date version;
 
-
-    public Attach() {
-    }
 
     public String getId() {
         return id;

@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.google.common.collect.Lists;
 import com.zt.blog.common.property.DataSourceProps;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -32,6 +33,7 @@ import org.springframework.transaction.interceptor.*;
 import javax.sql.DataSource;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,11 +77,11 @@ public class DataSourceConfig implements EnvironmentAware {
         MybatisSqlSessionFactoryBean sqlSessionFactoryBean=new MybatisSqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
         sqlSessionFactoryBean.setTypeAliasesPackage(dataSourceProps.getEntityPackages());
-        sqlSessionFactoryBean.setPlugins(new Interceptor[]{
-                new PaginationInterceptor(),        //分页插件
-                new OptimisticLockerInterceptor(),  //乐观锁插件
-                new PerformanceInterceptor()        //性能分析插件 输出sql语句和执行时间
-        });
+        List<Interceptor> list=Lists.newArrayList();
+        list.add(new PaginationInterceptor());//分页插件
+        list.add(new OptimisticLockerInterceptor());//乐观锁插件
+        list.add(new PerformanceInterceptor());//性能分析插件 输出sql语句和执行时间
+        sqlSessionFactoryBean.setPlugins(list.toArray(new Interceptor[]{}));
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.setJdbcTypeForNull(JdbcType.NULL);

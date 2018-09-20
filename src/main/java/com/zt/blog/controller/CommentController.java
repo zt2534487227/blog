@@ -1,6 +1,7 @@
 package com.zt.blog.controller;
 
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 @RequestMapping("/blog/comment")
+@Api(description = "评论相关 api")
 public class CommentController {
 
 }

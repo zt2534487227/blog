@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-03
+ * @since 2018-09-17
  */
 @TableName("t_article")
 public class Article implements Serializable {
@@ -31,7 +31,7 @@ public class Article implements Serializable {
     /**
      * 博客摘要
      */
-    private String desc;
+    private String digest;
     /**
      * 文章内容
      */
@@ -67,7 +67,7 @@ public class Article implements Serializable {
     /**
      * 状态
      */
-    private Integer status;
+    private Integer articleStatus;
     /**
      * 创建时间
      */
@@ -94,12 +94,12 @@ public class Article implements Serializable {
         this.title = title;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDigest() {
+        return digest;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDigest(String digest) {
+        this.digest = digest;
     }
 
     public String getContent() {
@@ -166,12 +166,12 @@ public class Article implements Serializable {
         this.showMode = showMode;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getArticleStatus() {
+        return articleStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setArticleStatus(Integer articleStatus) {
+        this.articleStatus = articleStatus;
     }
 
     public Date getCreatTime() {
@@ -195,7 +195,7 @@ public class Article implements Serializable {
         return "Article{" +
         ", id=" + id +
         ", title=" + title +
-        ", desc=" + desc +
+        ", digest=" + digest +
         ", content=" + content +
         ", categoryId=" + categoryId +
         ", tags=" + tags +
@@ -204,7 +204,7 @@ public class Article implements Serializable {
         ", ckickHit=" + ckickHit +
         ", replyHit=" + replyHit +
         ", showMode=" + showMode +
-        ", status=" + status +
+        ", articleStatus=" + articleStatus +
         ", creatTime=" + creatTime +
         ", version=" + version +
         "}";

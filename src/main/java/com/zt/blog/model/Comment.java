@@ -12,7 +12,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-03
+ * @since 2018-09-17
  */
 @TableName("t_comment")
 public class Comment implements Serializable {
@@ -63,7 +63,7 @@ public class Comment implements Serializable {
     /**
      * 状态
      */
-    private Integer status;
+    private Integer commentStatus;
     /**
      * 创建时间
      */
@@ -154,12 +154,12 @@ public class Comment implements Serializable {
         this.isShow = isShow;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getCommentStatus() {
+        return commentStatus;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setCommentStatus(Integer commentStatus) {
+        this.commentStatus = commentStatus;
     }
 
     public Date getCreateTime() {
@@ -191,7 +191,7 @@ public class Comment implements Serializable {
         ", treePath=" + treePath +
         ", commentTime=" + commentTime +
         ", isShow=" + isShow +
-        ", status=" + status +
+        ", commentStatus=" + commentStatus +
         ", createTime=" + createTime +
         ", version=" + version +
         "}";

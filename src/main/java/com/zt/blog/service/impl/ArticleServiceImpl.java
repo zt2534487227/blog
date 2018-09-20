@@ -1,9 +1,9 @@
 package com.zt.blog.service.impl;
 
-import com.zt.blog.model.Article;
-import com.zt.blog.dao.ArticleDao;
-import com.zt.blog.service.ArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zt.blog.dao.ArticleDao;
+import com.zt.blog.model.Article;
+import com.zt.blog.service.ArticleService;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,5 +16,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> implements ArticleService {
+
 
 }

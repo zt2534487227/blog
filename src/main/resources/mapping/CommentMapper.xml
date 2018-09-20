@@ -14,14 +14,14 @@
         <result column="treePath" property="treePath" />
         <result column="commentTime" property="commentTime" />
         <result column="isShow" property="isShow" />
-        <result column="status" property="status" />
+        <result column="commentStatus" property="commentStatus" />
         <result column="createTime" property="createTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userName, userId, content, articleId, bloggerId, parentId, treePath, commentTime, isShow, status, createTime, version
+        id, userName, userId, content, articleId, bloggerId, parentId, treePath, commentTime, isShow, commentStatus, createTime, version
     </sql>
 
 </mapper>

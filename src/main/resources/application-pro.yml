@@ -3,3 +3,7 @@ zt:
     url: jdbc:mysql://mysql:3306/blog?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&autoReconnect=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
+file:
+  rootPath: /upload
+swagger:
+  enable: true

@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.zt.blog.model.Article">
         <id column="id" property="id" />
         <result column="title" property="title" />
-        <result column="desc" property="desc" />
+        <result column="digest" property="digest" />
         <result column="content" property="content" />
         <result column="categoryId" property="categoryId" />
         <result column="tags" property="tags" />
@@ -15,14 +15,14 @@
         <result column="ckickHit" property="ckickHit" />
         <result column="replyHit" property="replyHit" />
         <result column="showMode" property="showMode" />
-        <result column="status" property="status" />
+        <result column="articleStatus" property="articleStatus" />
         <result column="creatTime" property="creatTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, desc, content, categoryId, tags, publishTime, userId, ckickHit, replyHit, showMode, status, creatTime, version
+        id, title, digest, content, categoryId, tags, publishTime, userId, ckickHit, replyHit, showMode, articleStatus, creatTime, version
     </sql>
 
 </mapper>

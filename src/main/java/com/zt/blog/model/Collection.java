@@ -1,12 +1,12 @@
 package com.zt.blog.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * <p>
@@ -14,7 +14,7 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-03
+ * @since 2018-09-17
  */
 @TableName("t_collection")
 @Alias("t_collection")
