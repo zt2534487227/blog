@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_concern")
+@Data
 public class Concern extends Model<Concern> {
 
     private static final long serialVersionUID = 1L;
@@ -48,68 +50,9 @@ public class Concern extends Model<Concern> {
     private Date version;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getConcernName() {
-        return concernName;
-    }
-
-    public void setConcernName(String concernName) {
-        this.concernName = concernName;
-    }
-
-    public Integer getConcernId() {
-        return concernId;
-    }
-
-    public void setConcernId(Integer concernId) {
-        this.concernId = concernId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Concern{" +
-        ", id=" + id +
-        ", userId=" + userId +
-        ", concernName=" + concernName +
-        ", concernId=" + concernId +
-        ", createTime=" + createTime +
-        ", version=" + version +
-        "}";
-    }
 }

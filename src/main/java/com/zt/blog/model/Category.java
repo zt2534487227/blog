@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_category")
+@Data
 public class Category extends Model<Category> {
 
     private static final long serialVersionUID = 1L;
@@ -48,68 +50,9 @@ public class Category extends Model<Category> {
     private Date version;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getIndex() {
-        return index;
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-
-    public Integer getCategoryStatus() {
-        return categoryStatus;
-    }
-
-    public void setCategoryStatus(Integer categoryStatus) {
-        this.categoryStatus = categoryStatus;
-    }
-
-    public Date getCreatTime() {
-        return creatTime;
-    }
-
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Category{" +
-        ", id=" + id +
-        ", name=" + name +
-        ", index=" + index +
-        ", categoryStatus=" + categoryStatus +
-        ", creatTime=" + creatTime +
-        ", version=" + version +
-        "}";
-    }
 }

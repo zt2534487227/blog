@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.MybatisXMLLanguageDriver;
 import com.baomidou.mybatisplus.core.config.GlobalConfig;
 import com.baomidou.mybatisplus.extension.plugins.OptimisticLockerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.google.common.collect.Lists;
 import com.zt.blog.common.property.DataSourceProps;
@@ -68,7 +67,7 @@ public class DataSourceConfig implements EnvironmentAware {
         List<Interceptor> list=Lists.newArrayList();
         list.add(new PaginationInterceptor());//分页插件
         list.add(new OptimisticLockerInterceptor());//乐观锁插件
-        list.add(new PerformanceInterceptor());//性能分析插件 输出sql语句和执行时间
+        //list.add(new PerformanceInterceptor());//性能分析插件 输出sql语句和执行时间
         sqlSessionFactoryBean.setPlugins(list.toArray(new Interceptor[]{}));
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);

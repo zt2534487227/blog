@@ -1,6 +1,7 @@
 package com.zt.blog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.model.Article;
@@ -11,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -29,10 +32,14 @@ public class CollectionController {
 
     @ApiOperation("我的收藏列表")
     @RequestMapping(value = "/list",method = RequestMethod.POST)
-    public Result getList(){
+    public Result getList(HttpServletRequest request){
+        request.getSession().getAttribute("ZSessionId");
+        Integer userId=0;
         Result<Collection> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Collection collection=new Collection();
 
-
+        collection.selectList(new QueryWrapper<Collection>().lambda()
+            .eq(Collection::getUserId,userId));
 
         return result;
     }

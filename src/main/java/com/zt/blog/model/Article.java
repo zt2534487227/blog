@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_article")
+@Data
 public class Article extends Model<Article> {
 
     private static final long serialVersionUID = 1L;
@@ -80,140 +82,10 @@ public class Article extends Model<Article> {
     private Date version;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDigest() {
-        return digest;
-    }
-
-    public void setDigest(String digest) {
-        this.digest = digest;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
-    }
-
-    public Date getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(Date publishTime) {
-        this.publishTime = publishTime;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Integer getCkickHit() {
-        return ckickHit;
-    }
-
-    public void setCkickHit(Integer ckickHit) {
-        this.ckickHit = ckickHit;
-    }
-
-    public Integer getReplyHit() {
-        return replyHit;
-    }
-
-    public void setReplyHit(Integer replyHit) {
-        this.replyHit = replyHit;
-    }
-
-    public Integer getShowMode() {
-        return showMode;
-    }
-
-    public void setShowMode(Integer showMode) {
-        this.showMode = showMode;
-    }
-
-    public Integer getArticleStatus() {
-        return articleStatus;
-    }
-
-    public void setArticleStatus(Integer articleStatus) {
-        this.articleStatus = articleStatus;
-    }
-
-    public Date getCreatTime() {
-        return creatTime;
-    }
-
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
 
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Article{" +
-        ", id=" + id +
-        ", title=" + title +
-        ", digest=" + digest +
-        ", content=" + content +
-        ", categoryId=" + categoryId +
-        ", tags=" + tags +
-        ", publishTime=" + publishTime +
-        ", userId=" + userId +
-        ", ckickHit=" + ckickHit +
-        ", replyHit=" + replyHit +
-        ", showMode=" + showMode +
-        ", articleStatus=" + articleStatus +
-        ", creatTime=" + creatTime +
-        ", version=" + version +
-        "}";
-    }
 }

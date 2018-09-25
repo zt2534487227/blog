@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_user")
+@Data
 public class User extends Model<User> {
 
     private static final long serialVersionUID = 1L;
@@ -128,248 +130,10 @@ public class User extends Model<User> {
     private Date version;
 
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(String userAccount) {
-        this.userAccount = userAccount;
-    }
-
-    public Integer getRoleType() {
-        return roleType;
-    }
-
-    public void setRoleType(Integer roleType) {
-        this.roleType = roleType;
-    }
-
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Integer getCheckMode() {
-        return checkMode;
-    }
-
-    public void setCheckMode(Integer checkMode) {
-        this.checkMode = checkMode;
-    }
-
-    public String getCheckCode() {
-        return checkCode;
-    }
-
-    public void setCheckCode(String checkCode) {
-        this.checkCode = checkCode;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-
-    public Integer getSex() {
-        return sex;
-    }
-
-    public void setSex(Integer sex) {
-        this.sex = sex;
-    }
-
-    public String getUserImage() {
-        return userImage;
-    }
-
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
-    }
-
-    public String getMobilePhone() {
-        return mobilePhone;
-    }
-
-    public void setMobilePhone(String mobilePhone) {
-        this.mobilePhone = mobilePhone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public Integer getAreaId() {
-        return areaId;
-    }
-
-    public void setAreaId(Integer areaId) {
-        this.areaId = areaId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getWxId() {
-        return wxId;
-    }
-
-    public void setWxId(String wxId) {
-        this.wxId = wxId;
-    }
-
-    public String getQqId() {
-        return qqId;
-    }
-
-    public void setQqId(String qqId) {
-        this.qqId = qqId;
-    }
-
-    public String getSinaId() {
-        return sinaId;
-    }
-
-    public void setSinaId(String sinaId) {
-        this.sinaId = sinaId;
-    }
-
-    public Integer getUserStatus() {
-        return userStatus;
-    }
-
-    public void setUserStatus(Integer userStatus) {
-        this.userStatus = userStatus;
-    }
-
-    public String getStatusMemo() {
-        return statusMemo;
-    }
-
-    public void setStatusMemo(String statusMemo) {
-        this.statusMemo = statusMemo;
-    }
-
-    public String getLoginIp() {
-        return loginIp;
-    }
-
-    public void setLoginIp(String loginIp) {
-        this.loginIp = loginIp;
-    }
-
-    public String getLoginTime() {
-        return loginTime;
-    }
-
-    public void setLoginTime(String loginTime) {
-        this.loginTime = loginTime;
-    }
-
-    public Date getCreatTime() {
-        return creatTime;
-    }
-
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-        ", id=" + id +
-        ", userAccount=" + userAccount +
-        ", roleType=" + roleType +
-        ", nickName=" + nickName +
-        ", password=" + password +
-        ", checkMode=" + checkMode +
-        ", checkCode=" + checkCode +
-        ", realName=" + realName +
-        ", sex=" + sex +
-        ", userImage=" + userImage +
-        ", mobilePhone=" + mobilePhone +
-        ", email=" + email +
-        ", sign=" + sign +
-        ", info=" + info +
-        ", url=" + url +
-        ", areaId=" + areaId +
-        ", address=" + address +
-        ", wxId=" + wxId +
-        ", qqId=" + qqId +
-        ", sinaId=" + sinaId +
-        ", userStatus=" + userStatus +
-        ", statusMemo=" + statusMemo +
-        ", loginIp=" + loginIp +
-        ", loginTime=" + loginTime +
-        ", creatTime=" + creatTime +
-        ", version=" + version +
-        "}";
-    }
+
 }

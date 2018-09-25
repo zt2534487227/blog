@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_comment")
+@Data
 public class Comment extends Model<Comment> {
 
     private static final long serialVersionUID = 1L;
@@ -75,132 +77,8 @@ public class Comment extends Model<Comment> {
      */
     private Date version;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getArticleId() {
-        return articleId;
-    }
-
-    public void setArticleId(Integer articleId) {
-        this.articleId = articleId;
-    }
-
-    public Integer getBloggerId() {
-        return bloggerId;
-    }
-
-    public void setBloggerId(Integer bloggerId) {
-        this.bloggerId = bloggerId;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getTreePath() {
-        return treePath;
-    }
-
-    public void setTreePath(String treePath) {
-        this.treePath = treePath;
-    }
-
-    public String getCommentTime() {
-        return commentTime;
-    }
-
-    public void setCommentTime(String commentTime) {
-        this.commentTime = commentTime;
-    }
-
-    public Integer getIsShow() {
-        return isShow;
-    }
-
-    public void setIsShow(Integer isShow) {
-        this.isShow = isShow;
-    }
-
-    public Integer getCommentStatus() {
-        return commentStatus;
-    }
-
-    public void setCommentStatus(Integer commentStatus) {
-        this.commentStatus = commentStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-        ", id=" + id +
-        ", userName=" + userName +
-        ", userId=" + userId +
-        ", content=" + content +
-        ", articleId=" + articleId +
-        ", bloggerId=" + bloggerId +
-        ", parentId=" + parentId +
-        ", treePath=" + treePath +
-        ", commentTime=" + commentTime +
-        ", isShow=" + isShow +
-        ", commentStatus=" + commentStatus +
-        ", createTime=" + createTime +
-        ", version=" + version +
-        "}";
     }
 }

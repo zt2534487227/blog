@@ -2,6 +2,7 @@ package com.zt.blog.model;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * @since 2018-09-25
  */
 @TableName("t_menu")
+@Data
 public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;
@@ -43,87 +45,9 @@ public class Menu extends Model<Menu> {
      */
     private Date version;
 
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getMenuName() {
-        return menuName;
-    }
-
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
-    }
-
-    public Integer getShowIndex() {
-        return showIndex;
-    }
-
-    public void setShowIndex(Integer showIndex) {
-        this.showIndex = showIndex;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getTreePath() {
-        return treePath;
-    }
-
-    public void setTreePath(String treePath) {
-        this.treePath = treePath;
-    }
-
-    public Integer getMenuStatus() {
-        return menuStatus;
-    }
-
-    public void setMenuStatus(Integer menuStatus) {
-        this.menuStatus = menuStatus;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getVersion() {
-        return version;
-    }
-
-    public void setVersion(Date version) {
-        this.version = version;
-    }
-
     @Override
     protected Serializable pkVal() {
         return this.id;
     }
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-        ", id=" + id +
-        ", menuName=" + menuName +
-        ", showIndex=" + showIndex +
-        ", parentId=" + parentId +
-        ", treePath=" + treePath +
-        ", menuStatus=" + menuStatus +
-        ", createTime=" + createTime +
-        ", version=" + version +
-        "}";
-    }
 }
