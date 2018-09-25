@@ -8,9 +8,9 @@ import com.zt.blog.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * @author ZhouTian
  * @since 2018-09-03
  */
-@Controller
+@RestController
 @RequestMapping("/blog/concern")
 @Api(description = "我的关注 相关api")
 public class ConcernController {
