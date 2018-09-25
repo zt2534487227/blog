@@ -1,8 +1,10 @@
 package com.zt.blog.model;
 
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -10,10 +12,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-18
+ * @since 2018-09-25
  */
 @TableName("t_menu")
-public class Menu implements Serializable {
+public class Menu extends Model<Menu> {
 
     private static final long serialVersionUID = 1L;
 
@@ -104,6 +106,11 @@ public class Menu implements Serializable {
 
     public void setVersion(Date version) {
         this.version = version;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 
     @Override

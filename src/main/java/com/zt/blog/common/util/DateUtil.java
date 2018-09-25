@@ -14,10 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Description: 处理时间的通用类
- * 
- *               Created on Nov 2, 2010 by liuzhaoq
- * 
+ * @Author: zhoutian
+ * @Description:
+ * @Date: 2018/9/25
  */
 public class DateUtil {
     private static Logger logger = LoggerFactory.getLogger(DateUtil.class);

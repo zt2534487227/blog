@@ -1,10 +1,12 @@
 package com.zt.blog.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -12,10 +14,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-17
+ * @since 2018-09-25
  */
 @TableName("t_category")
-public class Category implements Serializable {
+public class Category extends Model<Category> {
 
     private static final long serialVersionUID = 1L;
 
@@ -92,6 +94,11 @@ public class Category implements Serializable {
 
     public void setVersion(Date version) {
         this.version = version;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 
     @Override

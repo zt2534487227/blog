@@ -9,14 +9,14 @@ CREATE TABLE `t_article` (
   `content` text COMMENT '文章内容',
   `categoryId` int(10) NOT NULL COMMENT '分类id',
   `tags` varchar(255) DEFAULT NULL COMMENT '标签（多个用","分隔）',
-  `publishTime` varchar(14) DEFAULT NULL COMMENT '发布时间',
+  `publishTime` datetime DEFAULT NULL COMMENT '发布时间',
   `userId` int(10) NOT NULL COMMENT '用户id',
-  `ckickHit` int(10) DEFAULT NULL COMMENT '点击数',
-  `replyHit` int(10) DEFAULT NULL COMMENT '评论数',
-  `showMode` int(1) DEFAULT NULL COMMENT '文章模式（1：公开，2：私有）',
-  `articleStatus` int(1) DEFAULT NULL COMMENT '状态',
-  `creatTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  `ckickHit` int(10) DEFAULT '0' COMMENT '点击数',
+  `replyHit` int(10) DEFAULT '0' COMMENT '评论数',
+  `showMode` int(1) NOT NULL DEFAULT '1' COMMENT '文章模式（1：公开，2：私有）',
+  `articleStatus` int(1) NOT NULL DEFAULT '0' COMMENT '状态（0：编辑中；1：已发布）',
+  `creatTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='文章表';
 
@@ -67,11 +67,11 @@ CREATE TABLE `t_category` (
 DROP TABLE IF EXISTS `t_collection`;
 CREATE TABLE `t_collection` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id，自增长',
-  `userId` int(10) DEFAULT NULL COMMENT '用户id，user表id',
-  `articleTitle` varchar(50) DEFAULT NULL COMMENT '文章标题',
-  `articleId` varchar(255) DEFAULT NULL COMMENT '文章id',
-  `createTime` datetime DEFAULT NULL COMMENT '收藏日期',
-  `version` datetime DEFAULT NULL COMMENT '版本号',
+  `userId` int(10) NOT NULL COMMENT '用户id，user表id',
+  `articleTitle` varchar(50) NOT NULL COMMENT '文章标题',
+  `articleId` int(10) NOT NULL COMMENT '文章id',
+  `createTime` datetime NOT NULL COMMENT '收藏日期',
+  `version` datetime NOT NULL COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的收藏';
 
@@ -95,8 +95,8 @@ CREATE TABLE `t_comment` (
   `commentTime` varchar(14) DEFAULT NULL COMMENT '评论时间',
   `isShow` int(1) DEFAULT '1' COMMENT '是否展示（1：是，2：否）',
   `commentStatus` int(1) DEFAULT NULL COMMENT '状态',
-  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='评论表';
 
@@ -110,11 +110,11 @@ CREATE TABLE `t_comment` (
 DROP TABLE IF EXISTS `t_concern`;
 CREATE TABLE `t_concern` (
   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id，自增长',
-  `userId` int(11) DEFAULT NULL COMMENT '用户id',
-  `concernName` varchar(255) DEFAULT NULL COMMENT '关注的用户昵称',
-  `concernId` int(11) DEFAULT NULL COMMENT '关注的用户id',
-  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '关注时间',
-  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  `userId` int(11) NOT NULL COMMENT '用户id',
+  `concernName` varchar(255) NOT NULL COMMENT '关注的用户昵称',
+  `concernId` int(11) NOT NULL COMMENT '关注的用户id',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '关注时间',
+  `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='我的关注';
 
@@ -128,13 +128,13 @@ CREATE TABLE `t_concern` (
 DROP TABLE IF EXISTS `t_menu`;
 CREATE TABLE `t_menu` (
   `id` int(10) NOT NULL,
-  `menuName` varchar(50) DEFAULT NULL COMMENT '菜单名称',
+  `menuName` varchar(50) NOT NULL COMMENT '菜单名称',
   `showIndex` int(6) DEFAULT NULL COMMENT '排序',
   `parentId` int(11) DEFAULT '0',
   `treePath` varchar(255) DEFAULT NULL,
-  `menuStatus` int(1) DEFAULT '1' COMMENT '菜单状态（0：停用，1：启用）',
-  `createTime` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `version` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
+  `menuStatus` int(1) NOT NULL DEFAULT '1' COMMENT '菜单状态（0：停用，1：启用）',
+  `createTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -180,7 +180,7 @@ CREATE TABLE `t_user` (
   `creatTime` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user

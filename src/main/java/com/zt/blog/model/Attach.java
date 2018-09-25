@@ -1,9 +1,11 @@
 package com.zt.blog.model;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -11,10 +13,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-17
+ * @since 2018-09-25
  */
 @TableName("t_attach")
-public class Attach implements Serializable {
+public class Attach extends Model<Attach> {
 
     private static final long serialVersionUID = 1L;
 
@@ -102,6 +104,11 @@ public class Attach implements Serializable {
 
     public void setVersion(Date version) {
         this.version = version;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 
     @Override

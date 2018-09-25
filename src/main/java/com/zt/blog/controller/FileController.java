@@ -5,14 +5,12 @@ import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
 import com.zt.blog.common.util.FileUtil;
 import com.zt.blog.model.Attach;
-import com.zt.blog.service.AttachService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,9 +40,6 @@ public class FileController {
     //文件分隔符 windows下是'\\'  linux下是'/'
     private static final String separator=File.separator;
 
-    @Autowired
-    private AttachService attachService;
-
     @Value("${file.rootPath}")
     private String rootPath;
 
@@ -56,7 +51,7 @@ public class FileController {
     @ApiOperation(value = "上传文件")
     @RequestMapping(value = "/upload",method =RequestMethod.POST)
     public Result upload(MultipartFile file) throws IOException {
-        Result<String> result=new Result<>(StatusCode.Status.SUCCESS);
+        Result<String> result=new Result<>(true,StatusCode.Status.SUCCESS);
         String originalFilename = file.getOriginalFilename();
         String fileName=originalFilename.substring(0,originalFilename.lastIndexOf("."));
         long fileSize = file.getSize();
@@ -83,7 +78,7 @@ public class FileController {
         attach.setFilePath(localPath+separator+uuid);
         attach.setFileSize(new BigDecimal(fileSize));
         attach.setFileType(ext);
-        attachService.insert(attach);
+        attach.insert();
         result.setData(uuid);
         return result;
     }
@@ -106,7 +101,8 @@ public class FileController {
     @ApiImplicitParam(name = "id",required = true,paramType = "path")
     @RequestMapping(value = "/{id}",method=RequestMethod.GET)
     public void download(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
-        Attach attach = attachService.selectById(id);
+        Attach attach = new Attach();
+        attach=attach.selectById(id);
         if (null != attach){
             try (InputStream inputStream = new FileInputStream(new File(attach.getFilePath()))) {
                 OutputStream outputStream = response.getOutputStream();

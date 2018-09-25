@@ -1,10 +1,12 @@
 package com.zt.blog.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -12,10 +14,10 @@ import java.io.Serializable;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-17
+ * @since 2018-09-25
  */
 @TableName("t_article")
-public class Article implements Serializable {
+public class Article extends Model<Article> {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +49,7 @@ public class Article implements Serializable {
     /**
      * 发布时间
      */
-    private String publishTime;
+    private Date publishTime;
     /**
      * 用户id
      */
@@ -65,7 +67,7 @@ public class Article implements Serializable {
      */
     private Integer showMode;
     /**
-     * 状态
+     * 状态（0：编辑中；1：已发布）
      */
     private Integer articleStatus;
     /**
@@ -126,11 +128,11 @@ public class Article implements Serializable {
         this.tags = tags;
     }
 
-    public String getPublishTime() {
+    public Date getPublishTime() {
         return publishTime;
     }
 
-    public void setPublishTime(String publishTime) {
+    public void setPublishTime(Date publishTime) {
         this.publishTime = publishTime;
     }
 
@@ -188,6 +190,11 @@ public class Article implements Serializable {
 
     public void setVersion(Date version) {
         this.version = version;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
     }
 
     @Override

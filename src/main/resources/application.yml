@@ -5,24 +5,9 @@ zt:
     password: 123456
     type: com.alibaba.druid.pool.DruidDataSource
     entity-packages: com.zt.blog.model
-    mapperLocations: classpath:mapping/*.xml
     driver-class-name: com.mysql.cj.jdbc.Driver
-    tx-aop-expression: execution(* com.zt.blog.service.*.*Service*.*(..))
 server:
   port: 80
-#spring:
-#  application:
-#    name: blog
-#  mvc:
-#    view:
-#      prefix: /page/
-#      suffix: .html
-#    favicon:
-#      enabled: false
-#  security:
-#    user:
-#      name: zt
-#      password: zt123456
 swagger:
   enable: true
 file:
