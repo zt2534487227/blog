@@ -65,32 +65,36 @@ public class Result<T> implements Serializable{
 		return success;
 	}
 
-	public void setSuccess(boolean success) {
+	public Result<T> setSuccess(boolean success) {
 		this.success = success;
+		return this;
 	}
 
 	public String getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public Result<T> setCode(String code) {
 		this.code = code;
+		return this;
 	}
 
 	public String getMsg() {
 		return msg;
 	}
 
-	public void setMsg(String msg) {
+	public Result<T> setMsg(String msg) {
 		this.msg = msg;
+		return this;
 	}
 
 	public T getData() {
 		return data;
 	}
 
-	public void setData(T data) {
+	public Result<T> setData(T data) {
 		this.data = data;
+		return this;
 	}
 
 

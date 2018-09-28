@@ -2,11 +2,13 @@ package com.zt.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.Md5Encrypt;
 import com.zt.blog.common.util.VerifyCodeUtil;
 import com.zt.blog.model.User;
+import com.zt.blog.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -15,6 +17,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,6 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "用户相关api")
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     @ApiOperation(value = "根据id获取用户信息")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "id",value = "用户id",required = true)
@@ -39,9 +45,10 @@ public class UserController {
     @RequestMapping(value = "/user/getUserInfo",method = RequestMethod.GET)
     public Result<User> getUserInfo(Integer id){
         Result<User> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        User user = new User();
-        user=user.selectById(id);
-        result.setData(user);
+        if (null != id){
+            User user = userService.selectById(id);
+            result.setData(user);
+        }
         return result;
     }
 
@@ -96,7 +103,7 @@ public class UserController {
         // 身份验证
         subject.login(new UsernamePasswordToken(user.getUserAccount(), user.getPassword()));
         //登录成功
-        session.setAttribute("user",login);
+        session.setAttribute(BaseConstants.SESSION_USER,login);
         result=new Result<User>(true ,StatusCode.Status.SUCCESS);
         result.setData(login);
         return result;
@@ -108,7 +115,7 @@ public class UserController {
     public Result userLogout(){
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
-        session.removeAttribute("user");
+        session.removeAttribute(BaseConstants.SESSION_USER);
         subject.logout();
         return new Result(true ,StatusCode.Status.SUCCESS);
     }

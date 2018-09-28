@@ -1,5 +1,7 @@
 package com.zt.blog.common.constant;
 
+import com.zt.blog.model.Article;
+
 /**
  * @Author: ZhouTian
  * @Description:
@@ -42,12 +44,15 @@ public interface StatusCode {
         /**
          * 用户未登录
          */
-        USER_NOT_LOGIN("08","用户未登录"),
+        USER_NOT_LOGIN("11","用户未登录"),
+        USER_NOT_EXISTS("12","用户不存在"),
         /**
          * 用户登录失败
          */
-        USER_LOGIN_ERROR("09","账号或密码错误"),
-        USER_HAS_EXISTS("10","该账号已存在")
+        USER_LOGIN_ERROR("13","账号或密码错误"),
+        USER_HAS_EXISTS("14","该账号已存在"),
+
+        ARTICLE_NOT_EXISTS("21","文章不存在")
         ;
         private String code;
         private String msg;

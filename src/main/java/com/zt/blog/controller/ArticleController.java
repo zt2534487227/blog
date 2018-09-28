@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.model.Article;
+import com.zt.blog.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,6 +31,10 @@ import java.util.Date;
 @RequestMapping("/article")
 @Api(description = "文章相关api")
 public class ArticleController {
+
+
+    @Autowired
+    private ArticleService articleService;
 
     @ApiOperation("获取文章列表，分页显示")
     @ApiImplicitParams({
