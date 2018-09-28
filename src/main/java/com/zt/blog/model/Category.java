@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,10 +17,12 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-25
+ * @since 2018-09-28
  */
-@TableName("t_category")
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("t_category")
 public class Category extends Model<Category> {
 
     private static final long serialVersionUID = 1L;
@@ -31,11 +35,11 @@ public class Category extends Model<Category> {
     /**
      * 分类名称
      */
-    private String name;
+    private String cName;
     /**
      * 排序
      */
-    private Integer index;
+    private Integer showIndex;
     /**
      * 状态（1：有效，2：无效）
      */

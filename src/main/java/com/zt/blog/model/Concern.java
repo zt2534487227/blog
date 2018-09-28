@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -15,10 +17,12 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-25
+ * @since 2018-09-28
  */
-@TableName("t_concern")
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("t_concern")
 public class Concern extends Model<Concern> {
 
     private static final long serialVersionUID = 1L;

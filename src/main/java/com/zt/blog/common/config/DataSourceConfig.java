@@ -20,6 +20,7 @@ import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -85,6 +86,7 @@ public class DataSourceConfig implements EnvironmentAware {
                         .setColumnUnderline(false)  //驼峰下划线转换
                         .setFieldStrategy(FieldStrategy.NOT_EMPTY)
                 ));
+        sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(dataSourceProps.getMapperLocations()));
         return sqlSessionFactoryBean.getObject();
     }
 

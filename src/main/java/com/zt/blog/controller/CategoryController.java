@@ -33,7 +33,7 @@ public class CategoryController {
         Result<List<Category>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         Category category=new Category();
         List<Category> categoryList = category.selectList(new QueryWrapper<Category>().lambda()
-                .eq(Category::getCategoryStatus, 1).orderByAsc(Category::getIndex));
+                .eq(Category::getCategoryStatus, 1).orderByAsc(Category::getShowIndex));
         result.setData(categoryList);
         return result;
     }

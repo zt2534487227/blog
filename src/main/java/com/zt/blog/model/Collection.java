@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
@@ -16,11 +18,13 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-25
+ * @since 2018-09-28
  */
+@Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 @TableName("t_collection")
 @Alias("t_collection")
-@Data
 public class Collection extends Model<Collection> {
 
     private static final long serialVersionUID = 1L;

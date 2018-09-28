@@ -35,6 +35,19 @@ public interface StatusCode {
          * 请求超时
          */
         TIMEOUT_ERROR("06", "请求超时"),
+        /**
+         * 验证码错误
+         */
+        CHECK_CODE_ERROR("07","验证码错误"),
+        /**
+         * 用户未登录
+         */
+        USER_NOT_LOGIN("08","用户未登录"),
+        /**
+         * 用户登录失败
+         */
+        USER_LOGIN_ERROR("09","账号或密码错误"),
+        USER_HAS_EXISTS("10","该账号已存在")
         ;
         private String code;
         private String msg;

@@ -3,6 +3,8 @@ package com.zt.blog.model;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,10 +16,12 @@ import java.util.Date;
  * </p>
  *
  * @author ZhouTian
- * @since 2018-09-25
+ * @since 2018-09-28
  */
-@TableName("t_attach")
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@TableName("t_attach")
 public class Attach extends Model<Attach> {
 
     private static final long serialVersionUID = 1L;
