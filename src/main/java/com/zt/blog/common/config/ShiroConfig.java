@@ -40,12 +40,16 @@ public class ShiroConfig {
         bean.setUnauthorizedUrl("/403");
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
-        filterChainDefinitionMap.put("/image/**","anon");
         filterChainDefinitionMap.put("/","anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/swagger-resources", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
         filterChainDefinitionMap.put("/webjars/springfox-swagger-ui/**", "anon");
+        filterChainDefinitionMap.put("/image/**","anon");
+        filterChainDefinitionMap.put("/article/detail/**","anon");
+        filterChainDefinitionMap.put("/article/list","anon");
+        filterChainDefinitionMap.put("/category/**","anon");
+        filterChainDefinitionMap.put("/menu/**","anon");
         filterChainDefinitionMap.put("/userLogin","anon");
         filterChainDefinitionMap.put("/logout","logout");
         filterChainDefinitionMap.put("/**","authc");

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2018-09-03
  */
 @RestController
-@RequestMapping("/blog/concern")
+@RequestMapping("/concern")
 @Api(description = "我的关注 相关api")
 public class ConcernController {
 

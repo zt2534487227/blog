@@ -22,7 +22,7 @@ import java.util.List;
  * @since 2018-09-03
  */
 @RestController
-@RequestMapping("/blog/category")
+@RequestMapping("/category")
 @Api(description = "分类相关api")
 public class CategoryController {
 

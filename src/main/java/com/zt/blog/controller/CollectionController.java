@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2018-09-03
  */
 @RestController
-@RequestMapping("/blog/collection")
+@RequestMapping("/collection")
 @Api(description = "收藏相关api")
 public class CollectionController {
 

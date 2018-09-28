@@ -18,7 +18,7 @@ import java.util.List;
  * @Date: 2018/9/18
  */
 @RestController
-@RequestMapping("/blog/menu")
+@RequestMapping("/menu")
 @Api(description = "菜单相关api")
 public class MenuController {
 

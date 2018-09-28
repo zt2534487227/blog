@@ -26,7 +26,7 @@ import java.util.Date;
  * @since 2018-09-03
  */
 @RestController
-@RequestMapping("blog/article")
+@RequestMapping("/article")
 @Api(description = "文章相关api")
 public class ArticleController {
 
