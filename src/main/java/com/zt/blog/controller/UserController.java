@@ -18,9 +18,12 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.regex.Pattern;
 
 /**
  * <p>
@@ -59,19 +62,27 @@ public class UserController {
         @ApiImplicitParam(name = "password",value = "密码",required = true)
     })
     @RequestMapping(value = "/registry",method = RequestMethod.POST)
-    public Result register(User user) {
-        User register = user.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, user.getUserAccount()));
+    public Result register(String userAccount,String nickName,String password) {
+        if (StringUtils.isEmpty(userAccount)||StringUtils.isEmpty(nickName)||StringUtils.isEmpty(password)){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+        String uPattern = "^[a-zA-Z0-9_]{4,16}$";
+        if (!Pattern.matches(uPattern,userAccount)) {
+            return new Result(StatusCode.Status.PARAM_ERROR);
+        }
+        User register = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
         if (null != register){
             return new Result(StatusCode.Status.USER_HAS_EXISTS);
         }
+        User user=new User();
+        user.setUserAccount(userAccount);
+        user.setNickName(nickName);
         String checkCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 6, null);
         user.setCheckCode(checkCode);
-        user.setPassword(Md5Encrypt.md5(user.getPassword()+checkCode));
-        boolean insert = user.insert();
+        user.setPassword(Md5Encrypt.md5(password+checkCode));
+        boolean insert = userService.insert(user);
         return new Result(insert ,StatusCode.Status.SUCCESS);
     }
-
-
 
 
     @ApiOperation("用户登录")
@@ -80,7 +91,7 @@ public class UserController {
         @ApiImplicitParam(name = "password",value = "密码",required = true)
     })
     @RequestMapping(value = "/userLogin",method = RequestMethod.POST)
-    public Result<User> userLogin(User user){
+    public Result<User> userLogin(String userAccount,String password){
         Result<User> result=null;
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
@@ -90,18 +101,18 @@ public class UserController {
             return result;
         }
         //登录验证
-        User login = user.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, user.getUserAccount()));
+        User login = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
         if (null == login){
             result=new Result<User>(StatusCode.Status.USER_LOGIN_ERROR);
             return result;
         }
-        String md5 = Md5Encrypt.md5(user.getPassword() + login.getCheckCode());
+        String md5 = Md5Encrypt.md5(password + login.getCheckCode());
         if (!md5.equals(login.getPassword())){
             result=new Result<User>(StatusCode.Status.USER_LOGIN_ERROR);
             return result;
         }
         // 身份验证
-        subject.login(new UsernamePasswordToken(user.getUserAccount(), user.getPassword()));
+        subject.login(new UsernamePasswordToken(userAccount, password));
         //登录成功
         session.setAttribute(BaseConstants.SESSION_USER,login);
         result=new Result<User>(true ,StatusCode.Status.SUCCESS);

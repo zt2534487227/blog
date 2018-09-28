@@ -29,6 +29,7 @@ public interface StatusCode {
          * 参数为空
          */
         PARAM_EMPTY("04","参数为空"),
+        PARAM_ERROR("08","参数不合法"),
         /**
          * 服务器内部错误
          */

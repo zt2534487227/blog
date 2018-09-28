@@ -84,15 +84,6 @@ public class FileController {
     }
 
 
-
-    @ApiOperation(value = "上传图片")
-    @RequestMapping(value = "/image",method = RequestMethod.POST)
-    public Result uploadImage(HttpServletRequest request){
-
-        return null;
-    }
-
-
     /**
      * 文件下载
      * @return
@@ -110,7 +101,7 @@ public class FileController {
                 response.addHeader("Content-Disposition", "attachment;filename=" + attach.getFileName().trim()+"."+attach.getFileType());
                 FileUtil.copy(inputStream,outputStream);
             } catch (Exception e) {
-                log.error("file upload error",e);
+                log.error("file download error",e);
             }
         }
     }

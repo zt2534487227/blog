@@ -3,14 +3,19 @@ package com.zt.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.model.Article;
+import com.zt.blog.model.User;
 import com.zt.blog.service.ArticleService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,12 +55,11 @@ public class ArticleController {
         if (null == pageSize){
             pageNo=10;
         }
-        Article article=new Article();
         Page<Article> page=new Page<>(pageNo,pageSize);
-        article.selectPage(page, new QueryWrapper<Article>().lambda()
+        articleService.selectPage(page, new QueryWrapper<Article>().lambda()
                 .eq(Article::getShowMode,1) //公开
                 .eq(Article::getArticleStatus,1)//已发布
-                .orderByDesc(Article::getVersion));
+                );
         result.setData(page);
         return result;
     }
@@ -68,8 +72,7 @@ public class ArticleController {
     public Result<Article> getDetail(@PathVariable("id") Integer id){
         Result<Article> result=new Result<>(true,StatusCode.Status.SUCCESS);
         if (null != id){
-            Article article=new Article();
-            article = article.selectById(id);
+            Article article = articleService.selectById(id);
             result.setData(article);
         }
         return result;
@@ -90,7 +93,11 @@ public class ArticleController {
         if (1 == article.getArticleStatus()){
             article.setPublishTime(new Date());//发布时间
         }
-        boolean insert = article.insert();
+        Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+        User user = (User) session.getAttribute(BaseConstants.SESSION_USER);
+        article.setUserId(user.getId());
+        boolean insert = articleService.insert(article);
         result.setSuccess(insert);
         return result;
     }
@@ -102,13 +109,11 @@ public class ArticleController {
     })
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
     public Result publish(Article article){
-
-
         Result result=new Result<>(StatusCode.Status.SUCCESS);
         article.setPublishTime(new Date());//发布时间
         article.setArticleStatus(1);
         if (null != article.getId()){
-            boolean insert = article.updateById();
+            boolean insert = articleService.updateById(article);
             result.setSuccess(insert);
         }
         return result;
@@ -122,8 +127,7 @@ public class ArticleController {
     public Result del(Integer id){
         Result result=new Result<>(true,StatusCode.Status.SUCCESS);
         if (null != id){
-            Article article=new Article();
-            article.deleteById(id);
+            articleService.deleteById(id);
         }
         return result;
     }
