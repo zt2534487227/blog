@@ -2,9 +2,9 @@ package com.zt.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
+import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Article;
 import com.zt.blog.model.Collection;
 import com.zt.blog.model.User;
@@ -13,9 +13,6 @@ import com.zt.blog.service.CollectionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -48,9 +45,7 @@ public class CollectionController {
     @ApiOperation("我的收藏列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Collection>> getList(HttpServletRequest request){
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        User user = (User) session.getAttribute(BaseConstants.SESSION_USER);
+        User user = SessionUtil.getSessionUser();
         Result<List<Collection>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         List<Collection> collections = collectionService.selectList(new QueryWrapper<Collection>().lambda()
                 .eq(Collection::getUserId, user.getId()));
@@ -65,9 +60,7 @@ public class CollectionController {
     public Result add(Integer articleId){
         Result result=new Result();
         if (null != articleId){
-            Subject subject = SecurityUtils.getSubject();
-            Session session = subject.getSession();
-            User user = (User) session.getAttribute(BaseConstants.SESSION_USER);
+            User user = SessionUtil.getSessionUser();
             Article article = articleService.selectById(articleId);
             if (null == article){
                 return new Result(StatusCode.Status.ARTICLE_NOT_EXISTS);

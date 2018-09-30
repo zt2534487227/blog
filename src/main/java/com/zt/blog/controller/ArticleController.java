@@ -3,9 +3,9 @@ package com.zt.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
+import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Article;
 import com.zt.blog.model.User;
 import com.zt.blog.service.ArticleService;
@@ -13,9 +13,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -93,9 +90,7 @@ public class ArticleController {
         if (1 == article.getArticleStatus()){
             article.setPublishTime(new Date());//发布时间
         }
-        Subject subject = SecurityUtils.getSubject();
-        Session session = subject.getSession();
-        User user = (User) session.getAttribute(BaseConstants.SESSION_USER);
+        User user = SessionUtil.getSessionUser();
         article.setUserId(user.getId());
         boolean insert = articleService.insert(article);
         result.setSuccess(insert);

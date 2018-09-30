@@ -1,5 +1,6 @@
 package com.zt.blog.controller;
 
+import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.Md5Encrypt;
@@ -45,7 +46,7 @@ public class VerifyCodeController {
         response.setDateHeader("Expires", 0);
         String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 4, null);
         // 将验证码加密放到HttpSession里面
-        request.getSession().setAttribute("verifyCode", Md5Encrypt.md5(verifyCode.toLowerCase()));
+        request.getSession().setAttribute(BaseConstants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
         log.info("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
         // 设置输出的内容的类型为JPEG图像
         response.setContentType("image/jpeg");
@@ -62,7 +63,7 @@ public class VerifyCodeController {
         if (!StringUtils.isEmpty(verifyCode)) {
             HttpSession session = request.getSession();
             String sessioncode = (String) session.getAttribute("verifyCode");
-            session.removeAttribute("verifyCode");
+            session.removeAttribute(BaseConstants.SESSION_VERIFYCODE);
             // 加密后验证
             String sha1hexverifycode = Md5Encrypt.md5(verifyCode.toLowerCase());
             if (sha1hexverifycode.equalsIgnoreCase(sessioncode)) {
@@ -80,7 +81,7 @@ public class VerifyCodeController {
         // 生成验证码
         String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 4, null);
         // 将验证码加密放到HttpSession里面
-        request.getSession().setAttribute("verifyCode", Md5Encrypt.md5(verifyCode.toLowerCase()));
+        request.getSession().setAttribute(BaseConstants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
         log.info("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
         result.setData(verifyCode);
         return result;

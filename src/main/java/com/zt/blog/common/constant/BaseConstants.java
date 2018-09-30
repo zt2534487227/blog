@@ -9,4 +9,6 @@ public class BaseConstants {
 
     public static final String SESSION_USER="z_user";
 
+    public static final String SESSION_VERIFYCODE="z_verifycode";
+
 }
