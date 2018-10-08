@@ -1,5 +1,6 @@
 package com.zt.blog.controller;
 
+import com.google.common.collect.Maps;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
@@ -7,7 +8,6 @@ import com.zt.blog.common.util.FileUtil;
 import com.zt.blog.model.Attach;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -48,10 +49,10 @@ public class FileController {
      * 文件上传
      * @return
      */
-    @ApiOperation(value = "上传文件")
+    //@ApiOperation(value = "上传文件")
     @RequestMapping(value = "/upload",method =RequestMethod.POST)
     public Result upload(MultipartFile file) throws IOException {
-        Result<String> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Map<String,Object>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         String originalFilename = file.getOriginalFilename();
         String fileName=originalFilename.substring(0,originalFilename.lastIndexOf("."));
         long fileSize = file.getSize();
@@ -79,7 +80,10 @@ public class FileController {
         attach.setFileSize(new BigDecimal(fileSize));
         attach.setFileType(ext);
         attach.insert();
-        result.setData(uuid);
+        Map<String,Object> map=Maps.newHashMap();
+        map.put("fileName",attach.getFileName());
+        map.put("filePath",attach.getFilePath());
+        result.setData(map);
         return result;
     }
 
@@ -88,7 +92,7 @@ public class FileController {
      * 文件下载
      * @return
      */
-    @ApiOperation(value = "下载文件")
+    //@ApiOperation(value = "下载文件")
     @ApiImplicitParam(name = "id",required = true,paramType = "path")
     @RequestMapping(value = "/{id}",method=RequestMethod.GET)
     public void download(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
@@ -98,7 +102,8 @@ public class FileController {
             try (InputStream inputStream = new FileInputStream(new File(attach.getFilePath()))) {
                 OutputStream outputStream = response.getOutputStream();
                 response.setContentType("application/x-download");
-                response.addHeader("Content-Disposition", "attachment;filename=" + attach.getFileName().trim()+"."+attach.getFileType());
+                String attachment="attachment;filename="+attach.getFileName().trim()+"."+attach.getFileType();
+                response.addHeader("Content-Disposition", attachment );
                 FileUtil.copy(inputStream,outputStream);
             } catch (Exception e) {
                 log.error("file download error",e);

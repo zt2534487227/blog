@@ -5,5 +5,7 @@ zt:
     password: 123456
 file:
   rootPath: /upload
+image:
+  rootPath: /upload/images
 swagger:
-  enable: true
+  enable: false

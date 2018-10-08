@@ -1,10 +1,14 @@
 package com.zt.blog.controller;
 
+import com.google.common.collect.Sets;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Set;
 
 /**
  * @Author: ZhouTian
@@ -15,9 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class IndexController {
 
+    private static final Set<String> blogers=Sets.newHashSet("zt.blog.com","zjy.blog.com","cp.blog.com","cj.blog.com");
+
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index(){
-        return "welcome to my blog";
+    public Result<String> index(HttpServletRequest request){
+        Result<String> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        String bloger="my";
+        String serverName = request.getServerName();
+        if (blogers.contains(serverName)){
+            bloger=serverName.substring(0,serverName.indexOf("."));
+        }
+        result.setData("welcome to "+bloger+" blog");
+        return result;
     }
 
     @RequestMapping(value = "/login",method = RequestMethod.GET)
