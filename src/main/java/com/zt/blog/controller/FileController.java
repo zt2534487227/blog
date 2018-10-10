@@ -6,12 +6,15 @@ import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
 import com.zt.blog.common.util.FileUtil;
 import com.zt.blog.model.Attach;
+import com.zt.blog.service.AttachService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -43,6 +46,9 @@ public class FileController {
 
     @Value("${file.rootPath}")
     private String rootPath;
+
+    @Autowired
+    private AttachService attachService;
 
 
     /**
@@ -79,7 +85,7 @@ public class FileController {
         attach.setFilePath(localPath+separator+uuid);
         attach.setFileSize(new BigDecimal(fileSize));
         attach.setFileType(ext);
-        attach.insert();
+        attachService.insert(attach);
         Map<String,Object> map=Maps.newHashMap();
         map.put("fileName",attach.getFileName());
         map.put("filePath",attach.getFilePath());
@@ -96,17 +102,18 @@ public class FileController {
     @ApiImplicitParam(name = "id",required = true,paramType = "path")
     @RequestMapping(value = "/{id}",method=RequestMethod.GET)
     public void download(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
-        Attach attach = new Attach();
-        attach=attach.selectById(id);
-        if (null != attach){
-            try (InputStream inputStream = new FileInputStream(new File(attach.getFilePath()))) {
-                OutputStream outputStream = response.getOutputStream();
-                response.setContentType("application/x-download");
-                String attachment="attachment;filename="+attach.getFileName().trim()+"."+attach.getFileType();
-                response.addHeader("Content-Disposition", attachment );
-                FileUtil.copy(inputStream,outputStream);
-            } catch (Exception e) {
-                log.error("file download error",e);
+        if (!StringUtils.isEmpty(id)){
+            Attach attach = attachService.selectById(id);
+            if (null != attach){
+                try (InputStream inputStream = new FileInputStream(new File(attach.getFilePath()))) {
+                    OutputStream outputStream = response.getOutputStream();
+                    response.setContentType("application/x-download");
+                    String attachment="attachment;filename="+attach.getFileName().trim()+"."+attach.getFileType();
+                    response.addHeader("Content-Disposition", attachment );
+                    FileUtil.copy(inputStream,outputStream);
+                } catch (Exception e) {
+                    log.error("file download error",e);
+                }
             }
         }
     }

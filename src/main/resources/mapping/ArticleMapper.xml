@@ -12,17 +12,18 @@
         <result column="tags" property="tags" />
         <result column="publishTime" property="publishTime" />
         <result column="userId" property="userId" />
-        <result column="ckickHit" property="ckickHit" />
+        <result column="userName" property="userName" />
+        <result column="clickHit" property="clickHit" />
         <result column="replyHit" property="replyHit" />
         <result column="showMode" property="showMode" />
         <result column="articleStatus" property="articleStatus" />
-        <result column="creatTime" property="creatTime" />
+        <result column="createTime" property="creatTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, title, digest, content, categoryId, tags, publishTime, userId, ckickHit, replyHit, showMode, articleStatus, creatTime, version
+        id, title, digest, content, categoryId, tags, publishTime, userId,userName, clickHit, replyHit, showMode, articleStatus, createTime, version
     </sql>
 
 </mapper>

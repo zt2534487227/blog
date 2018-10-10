@@ -67,11 +67,12 @@ public class ArticleController {
     })
     @RequestMapping(value = "/detail/{id}",method = RequestMethod.GET)
     public Result<Article> getDetail(@PathVariable("id") Integer id){
-        Result<Article> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        if (null != id){
-            Article article = articleService.selectById(id);
-            result.setData(article);
+        if (null == id){
+            return new Result<>(StatusCode.Status.PARAM_EMPTY);
         }
+        Result<Article> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Article article = articleService.selectById(id);
+        result.setData(article);
         return result;
     }
     @ApiOperation("添加新文章")
@@ -86,14 +87,23 @@ public class ArticleController {
     })
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Result add(Article article){
-        Result result=new Result<>(StatusCode.Status.SUCCESS);
+        if (null == article.getTitle() ||null == article.getContent() ||null == article.getCategoryId()
+                || null == article.getShowMode()){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+        Result result=null;
         if (1 == article.getArticleStatus()){
             article.setPublishTime(new Date());//发布时间
         }
         User user = SessionUtil.getSessionUser();
         article.setUserId(user.getId());
+        article.setUserName(user.getNickName());
         boolean insert = articleService.insert(article);
-        result.setSuccess(insert);
+        if (insert){
+            result=new Result(true,StatusCode.Status.SUCCESS);
+        }else {
+            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+        }
         return result;
     }
 
@@ -104,12 +114,17 @@ public class ArticleController {
     })
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
     public Result publish(Article article){
-        Result result=new Result<>(StatusCode.Status.SUCCESS);
+        if (null == article.getId()){
+            return new Result<>(StatusCode.Status.PARAM_EMPTY);
+        }
+        Result result=null;
         article.setPublishTime(new Date());//发布时间
         article.setArticleStatus(1);
-        if (null != article.getId()){
-            boolean insert = articleService.updateById(article);
-            result.setSuccess(insert);
+        boolean insert = articleService.updateById(article);
+        if (insert){
+            result=new Result(true,StatusCode.Status.SUCCESS);
+        }else {
+            result=new Result(StatusCode.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -120,11 +135,11 @@ public class ArticleController {
     })
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
-        Result result=new Result<>(true,StatusCode.Status.SUCCESS);
-        if (null != id){
-            articleService.deleteById(id);
+        if (null ==id ){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        return result;
+        articleService.deleteById(id);
+        return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 
 

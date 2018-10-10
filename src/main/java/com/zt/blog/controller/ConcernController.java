@@ -53,19 +53,24 @@ public class ConcernController {
     @ApiImplicitParam(name = "userId",value = "用户id",required = true)
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public Result add(Integer userId){
-        Result result=new Result(StatusCode.Status.SUCCESS);
-        if (null != userId){
-            User own = SessionUtil.getSessionUser();
-            User user = userService.selectById(userId);
-            if (null == user){
-                return new Result(StatusCode.Status.USER_NOT_EXISTS);
-            }
-            Concern concern=new Concern();
-            concern.setConcernId(userId);
-            concern.setConcernName(user.getNickName());
-            concern.setUserId(own.getId());
-            boolean insert = concernService.insert(concern);
-            result.setSuccess(insert);
+        Result result=null;
+        if (null == userId){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+        User own = SessionUtil.getSessionUser();
+        User user = userService.selectById(userId);
+        if (null == user){
+            return new Result(StatusCode.Status.USER_NOT_EXISTS);
+        }
+        Concern concern=new Concern();
+        concern.setConcernId(userId);
+        concern.setConcernName(user.getNickName());
+        concern.setUserId(own.getId());
+        boolean insert = concernService.insert(concern);
+        if (insert){
+            result=new Result(true,StatusCode.Status.SUCCESS);
+        }else {
+            result=new Result(StatusCode.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -74,12 +79,11 @@ public class ConcernController {
     @ApiImplicitParam(name = "id",required = true)
     @RequestMapping(value = "del",method = RequestMethod.POST)
     public Result del(Integer id){
-        Result result=new Result(true,StatusCode.Status.SUCCESS);
-        if (null != id){
-            Concern concern=new Concern();
-            concern.deleteById(id);
+        if (null ==id ){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        return result;
+        concernService.deleteById(id);
+        return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 
 }

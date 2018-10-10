@@ -3,6 +3,7 @@ package com.zt.blog.common.config;
 import com.zt.blog.common.security.AdminAuthorizingRealm;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.SessionValidationScheduler;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -58,7 +59,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/registry","anon");
         filterChainDefinitionMap.put("/logout","logout");
         filterChainDefinitionMap.put("/**","authc");
-
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }
@@ -114,7 +114,7 @@ public class ShiroConfig {
      */
     @Bean
     public SessionValidationScheduler sessionValidationScheduler(){
-        return null;
+        return new ExecutorServiceSessionValidationScheduler();
     }
 
     /**

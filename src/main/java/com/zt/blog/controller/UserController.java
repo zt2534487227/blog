@@ -47,11 +47,12 @@ public class UserController {
     })
     @RequestMapping(value = "/user/getUserInfo",method = RequestMethod.GET)
     public Result<User> getUserInfo(Integer id){
-        Result<User> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        if (null != id){
-            User user = userService.selectById(id);
-            result.setData(user);
+        if (null == id){
+            return new Result<>(StatusCode.Status.PARAM_EMPTY);
         }
+        Result<User> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        User user = userService.selectById(id);
+        result.setData(user);
         return result;
     }
 
@@ -74,6 +75,7 @@ public class UserController {
         if (null != register){
             return new Result(StatusCode.Status.USER_HAS_EXISTS);
         }
+        Result result=null;
         User user=new User();
         user.setUserAccount(userAccount);
         user.setNickName(nickName);
@@ -81,7 +83,12 @@ public class UserController {
         user.setCheckCode(checkCode);
         user.setPassword(Md5Encrypt.md5(password+checkCode));
         boolean insert = userService.insert(user);
-        return new Result(insert ,StatusCode.Status.SUCCESS);
+        if (insert){
+            result=new Result(true,StatusCode.Status.SUCCESS);
+        }else {
+            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+        }
+        return result;
     }
 
 
@@ -92,6 +99,9 @@ public class UserController {
     })
     @RequestMapping(value = "/userLogin",method = RequestMethod.POST)
     public Result<User> userLogin(String userAccount,String password){
+        if (StringUtils.isEmpty(userAccount)||StringUtils.isEmpty(password)){
+            return new Result<>(StatusCode.Status.PARAM_EMPTY);
+        }
         Result<User> result=null;
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();

@@ -3,7 +3,6 @@ package com.zt.blog.model;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,7 +37,7 @@ public class User extends Model<User> {
      */
     private String userAccount;
     /**
-     * 角色类型（管理员，普通用户）
+     * 角色类型（1:管理员，2:普通用户）
      */
     private Integer roleType;
     /**
@@ -128,11 +127,10 @@ public class User extends Model<User> {
     /**
      * 创建时间
      */
-    private Date creatTime;
+    private Date createTime;
     /**
      * 版本号
      */
-    @Version
     private Date version;
 
 

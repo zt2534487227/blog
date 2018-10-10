@@ -58,22 +58,25 @@ public class CollectionController {
     @ApiImplicitParam(name = "articleId",value = "文章id",required = true)
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Result add(Integer articleId){
-        Result result=new Result();
-        if (null != articleId){
-            User user = SessionUtil.getSessionUser();
-            Article article = articleService.selectById(articleId);
-            if (null == article){
-                return new Result(StatusCode.Status.ARTICLE_NOT_EXISTS);
-            }
-            Collection collection=new Collection();
-            collection.setArticleId(articleId);
-            collection.setUserId(user.getId());
-            collection.setArticleTitle(article.getTitle());
-            boolean insert = collectionService.insert(collection);
-            if (insert){
-
-            }
-
+        Result result=null;
+        if (null ==articleId){
+           return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+        User user = SessionUtil.getSessionUser();
+        Article article = articleService.selectById(articleId);
+        if (null == article){
+            return new Result(StatusCode.Status.ARTICLE_NOT_EXISTS);
+        }
+        Collection collection=new Collection();
+        collection.setArticleId(articleId);
+        collection.setUserId(user.getId());
+        collection.setArticleTitle(article.getTitle());
+        collection.setArticleAuthor(article.getUserName());
+        boolean insert = collectionService.insert(collection);
+        if (insert){
+            result=new Result(true,StatusCode.Status.SUCCESS);
+        }else {
+            result=new Result(StatusCode.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -82,11 +85,11 @@ public class CollectionController {
     @ApiImplicitParam(name = "id",required = true)
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
-        Result result=new Result<>(true,StatusCode.Status.SUCCESS);
-        if (null != id){
-            collectionService.deleteById(id);
+        if (null ==id ){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        return result;
+        collectionService.deleteById(id);
+        return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 
 }

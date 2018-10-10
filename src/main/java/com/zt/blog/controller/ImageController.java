@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,6 +29,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/image")
+@Api(description = "image 相关api")
 public class ImageController {
 
     //文件分隔符 windows下是'\\'  linux下是'/'

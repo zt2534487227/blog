@@ -28,13 +28,13 @@
         <result column="statusMemo" property="statusMemo" />
         <result column="loginIp" property="loginIp" />
         <result column="loginTime" property="loginTime" />
-        <result column="creatTime" property="creatTime" />
+        <result column="createTime" property="createTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userAccount, roleType, nickName, password, checkMode, checkCode, realName, sex, userImage, mobilePhone, email, sign, info, url, areaId, address, wxId, qqId, sinaId, userStatus, statusMemo, loginIp, loginTime, creatTime, version
+        id, userAccount, roleType, nickName, password, checkMode, checkCode, realName, sex, userImage, mobilePhone, email, sign, info, url, areaId, address, wxId, qqId, sinaId, userStatus, statusMemo, loginIp, loginTime, createTime, version
     </sql>
 
 </mapper>

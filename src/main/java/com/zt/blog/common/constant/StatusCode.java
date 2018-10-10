@@ -42,6 +42,7 @@ public interface StatusCode {
          * 验证码错误
          */
         CHECK_CODE_ERROR("07","验证码错误"),
+        REQUEST_ERROR("08","请求错误"),
         /**
          * 用户未登录
          */

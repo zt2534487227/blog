@@ -30,6 +30,14 @@ public class GlobeException {
         return new Result(StatusCode.Status.BUSINESS_ERROR);
     }
 
+  /*  @ExceptionHandler({NullPointerException.class,ClassCastException.class,NegativeArraySizeException.class
+            ,ArrayIndexOutOfBoundsException.class,NumberFormatException.class})
+    @ResponseBody
+    public Result requestError(HttpServletRequest request,Exception e){
+        log.error("requestUrl:"+request.getRequestURI()+",ParameterMap:"+request.getParameterMap(),e);
+        return new Result(StatusCode.Status.REQUEST_ERROR);
+    }*/
+
     @ExceptionHandler({SystemException.class,Exception.class})
     @ResponseBody
     public Result handException(HttpServletRequest request,Exception e){

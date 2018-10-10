@@ -8,13 +8,14 @@
         <result column="userId" property="userId" />
         <result column="articleTitle" property="articleTitle" />
         <result column="articleId" property="articleId" />
+        <result column="articleAuthor" property="articleAuthor" />
         <result column="createTime" property="createTime" />
         <result column="version" property="version" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, userId, articleTitle, articleId, createTime, version
+        id, userId, articleTitle, articleId,articleAuthor, createTime, version
     </sql>
 
 </mapper>

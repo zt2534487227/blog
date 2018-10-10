@@ -36,19 +36,35 @@ public class CommentController {
 
     @ApiOperation("获取我的评论")
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public Result getMyComment(){
+    public Result<List<Comment>> getMyComment(){
+        Result<List<Comment>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
         List<Comment> comments = commentService.selectList(new QueryWrapper<Comment>().lambda()
-                .eq(Comment::getBloggerId, user.getId()));
+                .eq(Comment::getBloggerId, user.getId()).orderByDesc(Comment::getCreateTime));
+        result.setData(comments);
+        return result;
+    }
+
+    @ApiOperation("获取文章的评论")
+    @ApiImplicitParam(name = "articleId",required = true)
+    @RequestMapping(value = "/blogComment",method = RequestMethod.POST)
+    public Result getArticleComment(Integer articleId){
+        if (null == articleId){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+        commentService.selectList(new QueryWrapper<Comment>().lambda()
+                .eq(Comment::getArticleId,articleId).eq(Comment::getParentId,0));
 
         return null;
     }
 
-    @ApiOperation("获取博客的评论")
-    @ApiImplicitParam(name = "blogId",required = true)
-    @RequestMapping(value = "/a",method = RequestMethod.POST)
-    public Result getBlogComment(Integer blogId){
+    public Result getArticleReply(Integer commentId){
+        if (null == commentId){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
 
+        commentService.selectList(new QueryWrapper<Comment>().lambda()
+                .eq(Comment::getParentId,commentId));
 
         return null;
     }
@@ -56,7 +72,11 @@ public class CommentController {
 
     @ApiOperation("添加评论")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result add(){
+    public Result add(Integer blogId){
+        if (null == blogId){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
+        }
+
 
         return null;
     }
@@ -64,10 +84,11 @@ public class CommentController {
     @ApiOperation("删除评论")
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
-        if (null != id){
-            commentService.deleteById(id);
+        if (null ==id ){
+            return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        return new Result(true,StatusCode.Status.SUCCESS);
+        commentService.deleteById(id);
+        return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 
 }

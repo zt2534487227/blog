@@ -19,7 +19,7 @@ import java.util.Set;
 @RequestMapping("/")
 public class IndexController {
 
-    private static final Set<String> blogers=Sets.newHashSet("zt.blog.com","zjy.blog.com","cp.blog.com","cj.blog.com");
+    private static final Set<String> blogers=Sets.newHashSet("zt.zhendehenyouyisi.com","zjy.zhendehenyouyisi.com","cp.zhendehenyouyisi.com","cj.zhendehenyouyisi.com");
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public Result<String> index(HttpServletRequest request){
