@@ -2,7 +2,7 @@ package com.zt.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Article;
@@ -46,7 +46,7 @@ public class CollectionController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Collection>> getList(HttpServletRequest request){
         User user = SessionUtil.getSessionUser();
-        Result<List<Collection>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<List<Collection>> result=new Result<>(true,Constants.Status.SUCCESS);
         List<Collection> collections = collectionService.list(new QueryWrapper<Collection>().lambda()
                 .eq(Collection::getUserId, user.getId()));
         result.setData(collections);
@@ -60,12 +60,12 @@ public class CollectionController {
     public Result add(Integer articleId){
         Result result=null;
         if (null ==articleId){
-           return new Result(StatusCode.Status.PARAM_EMPTY);
+           return new Result(Constants.Status.PARAM_EMPTY);
         }
         User user = SessionUtil.getSessionUser();
         Article article = articleService.getById(articleId);
         if (null == article){
-            return new Result(StatusCode.Status.ARTICLE_NOT_EXISTS);
+            return new Result(Constants.Status.ARTICLE_NOT_EXISTS);
         }
         Collection collection=new Collection();
         collection.setArticleId(articleId);
@@ -74,9 +74,9 @@ public class CollectionController {
         collection.setArticleAuthor(article.getUserName());
         boolean insert = collectionService.save(collection);
         if (insert){
-            result=new Result(true,StatusCode.Status.SUCCESS);
+            result=new Result(true,Constants.Status.SUCCESS);
         }else {
-            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+            result=new Result(Constants.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -86,10 +86,10 @@ public class CollectionController {
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
         if (null ==id ){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         collectionService.removeById(id);
-        return new Result<>(true,StatusCode.Status.SUCCESS);
+        return new Result<>(true,Constants.Status.SUCCESS);
     }
 
 }

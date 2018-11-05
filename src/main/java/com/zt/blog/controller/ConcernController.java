@@ -2,7 +2,7 @@ package com.zt.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Concern;
@@ -40,7 +40,7 @@ public class ConcernController {
     @ApiOperation("我的关注列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Concern>> getList(){
-        Result<List<Concern>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<List<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
         List<Concern> concerns = concernService.list(new QueryWrapper<Concern>().lambda()
                 .eq(Concern::getUserId, user.getId()));
@@ -55,12 +55,12 @@ public class ConcernController {
     public Result add(Integer userId){
         Result result=null;
         if (null == userId){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         User own = SessionUtil.getSessionUser();
         User user = userService.getById(userId);
         if (null == user){
-            return new Result(StatusCode.Status.USER_NOT_EXISTS);
+            return new Result(Constants.Status.USER_NOT_EXISTS);
         }
         Concern concern=new Concern();
         concern.setConcernId(userId);
@@ -68,9 +68,9 @@ public class ConcernController {
         concern.setUserId(own.getId());
         boolean insert = concernService.save(concern);
         if (insert){
-            result=new Result(true,StatusCode.Status.SUCCESS);
+            result=new Result(true,Constants.Status.SUCCESS);
         }else {
-            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+            result=new Result(Constants.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -80,10 +80,10 @@ public class ConcernController {
     @RequestMapping(value = "del",method = RequestMethod.POST)
     public Result del(Integer id){
         if (null ==id ){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         concernService.removeById(id);
-        return new Result<>(true,StatusCode.Status.SUCCESS);
+        return new Result<>(true,Constants.Status.SUCCESS);
     }
 
 }

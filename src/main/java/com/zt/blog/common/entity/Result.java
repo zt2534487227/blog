@@ -1,6 +1,6 @@
 package com.zt.blog.common.entity;
 
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 
 import java.io.Serializable;
 
@@ -32,12 +32,12 @@ public class Result<T> implements Serializable{
 		this.success = success;
 	}
 
-    public Result(StatusCode.Status status) {
+    public Result(Constants.Status status) {
         this.msg = status.getMsg();
         this.code=status.getCode();
     }
 
-    public Result(boolean success, StatusCode.Status status) {
+    public Result(boolean success, Constants.Status status) {
         this.success = success;
         this.msg = status.getMsg();
         this.code=status.getCode();

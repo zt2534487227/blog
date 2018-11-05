@@ -2,7 +2,7 @@ package com.zt.blog.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Comment;
@@ -37,7 +37,7 @@ public class CommentController {
     @ApiOperation("获取我的评论")
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public Result<List<Comment>> getMyComment(){
-        Result<List<Comment>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<List<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
         List<Comment> comments = commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getBloggerId, user.getId()).orderByDesc(Comment::getCreateTime));
@@ -50,7 +50,7 @@ public class CommentController {
     @RequestMapping(value = "/blogComment",method = RequestMethod.POST)
     public Result getArticleComment(Integer articleId){
         if (null == articleId){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getArticleId,articleId).eq(Comment::getParentId,0));
@@ -60,7 +60,7 @@ public class CommentController {
 
     public Result getArticleReply(Integer commentId){
         if (null == commentId){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
 
         commentService.list(new QueryWrapper<Comment>().lambda()
@@ -74,7 +74,7 @@ public class CommentController {
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Result add(Integer blogId){
         if (null == blogId){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
 
 
@@ -85,10 +85,10 @@ public class CommentController {
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
         if (null ==id ){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         commentService.removeById(id);
-        return new Result<>(true,StatusCode.Status.SUCCESS);
+        return new Result<>(true,Constants.Status.SUCCESS);
     }
 
 }

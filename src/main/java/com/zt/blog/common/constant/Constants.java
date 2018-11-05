@@ -5,7 +5,13 @@ package com.zt.blog.common.constant;
  * @Description:
  * @Date: 2018/8/21
  */
-public interface StatusCode {
+public interface Constants {
+
+    String SESSION_USER="z_user";
+
+    String SESSION_VERIFYCODE="z_verifyCode";
+
+
     enum Status {
         /**
          * 成功

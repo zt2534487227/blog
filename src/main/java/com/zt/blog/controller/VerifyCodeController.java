@@ -1,7 +1,6 @@
 package com.zt.blog.controller;
 
-import com.zt.blog.common.constant.BaseConstants;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.Md5Encrypt;
 import com.zt.blog.common.util.VerifyCodeUtil;
@@ -48,7 +47,7 @@ public class VerifyCodeController {
         response.setDateHeader("Expires", 0);
         String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 4, null);
         // 将验证码加密放到HttpSession里面
-        request.getSession().setAttribute(BaseConstants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
+        request.getSession().setAttribute(Constants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
         log.info("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
         // 设置输出的内容的类型为JPEG图像
         response.setContentType("image/jpeg");
@@ -64,12 +63,12 @@ public class VerifyCodeController {
     )
     @RequestMapping(value="/checkVerifyCode",method=RequestMethod.POST)
     private Result<Boolean> checkVerifyCode(String verifyCode, HttpServletRequest request) {
-        Result<Boolean> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Boolean> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(false);
         if (!StringUtils.isEmpty(verifyCode)) {
             HttpSession session = request.getSession();
-            String sessioncode = (String) session.getAttribute(BaseConstants.SESSION_VERIFYCODE);
-            session.removeAttribute(BaseConstants.SESSION_VERIFYCODE);
+            String sessioncode = (String) session.getAttribute(Constants.SESSION_VERIFYCODE);
+            session.removeAttribute(Constants.SESSION_VERIFYCODE);
             // 加密后验证
             String sha1hexverifycode = Md5Encrypt.md5(verifyCode.toLowerCase());
             if (sha1hexverifycode.equalsIgnoreCase(sessioncode)) {
@@ -83,11 +82,11 @@ public class VerifyCodeController {
     @ApiOperation("获取验证码")
     @RequestMapping(value = "/getVerifyCode",method = RequestMethod.GET)
     public Result<String> getVerifyCode(HttpServletRequest request) {
-        Result<String> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<String> result=new Result<>(true,Constants.Status.SUCCESS);
         // 生成验证码
         String verifyCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 4, null);
         // 将验证码加密放到HttpSession里面
-        request.getSession().setAttribute(BaseConstants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
+        request.getSession().setAttribute(Constants.SESSION_VERIFYCODE, Md5Encrypt.md5(verifyCode.toLowerCase()));
         log.info("本次生成的验证码为[" + verifyCode + "],已存放到HttpSession中");
         result.setData(verifyCode);
         return result;

@@ -1,7 +1,7 @@
 package com.zt.blog.controller;
 
 import com.google.common.collect.Maps;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
 import com.zt.blog.common.util.FileUtil;
@@ -58,7 +58,7 @@ public class FileController {
     //@ApiOperation(value = "上传文件")
     @RequestMapping(value = "/upload",method =RequestMethod.POST)
     public Result upload(MultipartFile file) throws IOException {
-        Result<Map<String,Object>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Map<String,Object>> result=new Result<>(true,Constants.Status.SUCCESS);
         String originalFilename = file.getOriginalFilename();
         String fileName=originalFilename.substring(0,originalFilename.lastIndexOf("."));
         long fileSize = file.getSize();

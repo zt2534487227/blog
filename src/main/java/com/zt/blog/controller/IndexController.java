@@ -1,7 +1,7 @@
 package com.zt.blog.controller;
 
 import com.google.common.collect.Sets;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class IndexController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(HttpServletRequest request){
-        Result<String> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<String> result=new Result<>(true,Constants.Status.SUCCESS);
         String bloger="my";
         String serverName = request.getServerName();
         if (blogers.contains(serverName)){
@@ -37,7 +37,7 @@ public class IndexController {
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     @ResponseBody
     public Result login(){
-        return new Result(StatusCode.Status.USER_NOT_LOGIN);
+        return new Result(Constants.Status.USER_NOT_LOGIN);
     }
 
     @RequestMapping(value = "/403",method = RequestMethod.GET)

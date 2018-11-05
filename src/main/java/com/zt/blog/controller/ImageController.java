@@ -2,7 +2,7 @@ package com.zt.blog.controller;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.DateUtil;
 import io.swagger.annotations.Api;
@@ -47,12 +47,12 @@ public class ImageController {
     @ApiOperation(value = "上传图片")
     @RequestMapping(value = "/upload",method =RequestMethod.POST)
     public Result upload(MultipartFile file) throws IOException {
-        Result<Map<String,Object>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Map<String,Object>> result=new Result<>(true,Constants.Status.SUCCESS);
         String originalFilename = file.getOriginalFilename();
         String fileName=originalFilename.substring(0,originalFilename.lastIndexOf("."));
         String ext = FilenameUtils.getExtension(originalFilename).toLowerCase(Locale.ENGLISH);
         if (StringUtils.isEmpty(ext) || !imageTypes.contains(ext)){
-            return new Result(false,StatusCode.Status.BUSINESS_ERROR.getCode(),"图片格式错误");
+            return new Result(false,Constants.Status.BUSINESS_ERROR.getCode(),"图片格式错误");
         }
         String today = DateUtil.getToday();
         String localPath=rootPath+separator+today.substring(0,6)+separator+today.substring(6);

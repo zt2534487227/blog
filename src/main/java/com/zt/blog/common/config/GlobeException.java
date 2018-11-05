@@ -1,6 +1,6 @@
 package com.zt.blog.common.config;
 
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.exception.BusinessException;
 import com.zt.blog.common.exception.DaoException;
@@ -27,7 +27,7 @@ public class GlobeException {
     @ResponseBody
     public Result businessException(HttpServletRequest request,Exception e){
         log.error("requestUrl:"+request.getRequestURI()+",ParameterMap:"+request.getParameterMap(),e);
-        return new Result(StatusCode.Status.BUSINESS_ERROR);
+        return new Result(Constants.Status.BUSINESS_ERROR);
     }
 
   /*  @ExceptionHandler({NullPointerException.class,ClassCastException.class,NegativeArraySizeException.class
@@ -35,14 +35,14 @@ public class GlobeException {
     @ResponseBody
     public Result requestError(HttpServletRequest request,Exception e){
         log.error("requestUrl:"+request.getRequestURI()+",ParameterMap:"+request.getParameterMap(),e);
-        return new Result(StatusCode.Status.REQUEST_ERROR);
+        return new Result(Constants.Status.REQUEST_ERROR);
     }*/
 
     @ExceptionHandler({SystemException.class,Exception.class})
     @ResponseBody
     public Result handException(HttpServletRequest request,Exception e){
         log.error("requestUrl:"+request.getRequestURI()+",ParameterMap:"+request.getParameterMap(),e);
-        return new Result(StatusCode.Status.SERVER_ERROR);
+        return new Result(Constants.Status.SERVER_ERROR);
     }
 
 

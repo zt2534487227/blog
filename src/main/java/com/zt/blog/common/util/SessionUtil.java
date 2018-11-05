@@ -1,6 +1,6 @@
 package com.zt.blog.common.util;
 
-import com.zt.blog.common.constant.BaseConstants;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.model.User;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
@@ -23,13 +23,13 @@ public class SessionUtil {
 
     public static User getSessionUser(){
         Session session = SecurityUtils.getSubject().getSession();
-        User user = (User) session.getAttribute(BaseConstants.SESSION_USER);
+        User user = (User) session.getAttribute(Constants.SESSION_USER);
         return user;
     }
 
     public static void setSessionUser(User user){
         Session session = SecurityUtils.getSubject().getSession();
-        session.setAttribute(BaseConstants.SESSION_USER,user);
+        session.setAttribute(Constants.SESSION_USER,user);
     }
 
 }

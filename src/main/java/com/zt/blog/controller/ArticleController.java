@@ -3,7 +3,7 @@ package com.zt.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.model.Article;
@@ -45,7 +45,7 @@ public class ArticleController {
     })
     @RequestMapping(value = "/list",method = RequestMethod.POST)
     public Result<Page<Article>> getList(Integer pageNo,Integer pageSize){
-        Result<Page<Article>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Page<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
         if (null == pageNo){
             pageNo=1;
         }
@@ -71,9 +71,9 @@ public class ArticleController {
     @RequestMapping(value = "/detail/{id}",method = RequestMethod.GET)
     public Result<Article> getDetail(@PathVariable("id") Integer id){
         if (null == id){
-            return new Result<>(StatusCode.Status.PARAM_EMPTY);
+            return new Result<>(Constants.Status.PARAM_EMPTY);
         }
-        Result<Article> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<Article> result=new Result<>(true,Constants.Status.SUCCESS);
         Article article = articleService.getById(id);
         result.setData(article);
         return result;
@@ -92,7 +92,7 @@ public class ArticleController {
     public Result add(Article article){
         if (null == article.getTitle() ||null == article.getContent() ||null == article.getCategoryId()
                 || null == article.getShowMode()){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         Result result=null;
         if (1 == article.getArticleStatus()){
@@ -103,9 +103,9 @@ public class ArticleController {
         article.setUserName(user.getNickName());
         boolean insert = articleService.save(article);
         if (insert){
-            result=new Result(true,StatusCode.Status.SUCCESS);
+            result=new Result(true,Constants.Status.SUCCESS);
         }else {
-            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+            result=new Result(Constants.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -118,16 +118,16 @@ public class ArticleController {
     @RequestMapping(value = "/publish",method = RequestMethod.POST)
     public Result publish(Article article){
         if (null == article.getId()){
-            return new Result<>(StatusCode.Status.PARAM_EMPTY);
+            return new Result<>(Constants.Status.PARAM_EMPTY);
         }
         Result result=null;
         article.setPublishTime(new Date());//发布时间
         article.setArticleStatus(1);
         boolean insert = articleService.updateById(article);
         if (insert){
-            result=new Result(true,StatusCode.Status.SUCCESS);
+            result=new Result(true,Constants.Status.SUCCESS);
         }else {
-            result=new Result(StatusCode.Status.BUSINESS_ERROR);
+            result=new Result(Constants.Status.BUSINESS_ERROR);
         }
         return result;
     }
@@ -139,10 +139,10 @@ public class ArticleController {
     @RequestMapping(value = "/del",method = RequestMethod.POST)
     public Result del(Integer id){
         if (null ==id ){
-            return new Result(StatusCode.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.PARAM_EMPTY);
         }
         articleService.removeById(id);
-        return new Result<>(true,StatusCode.Status.SUCCESS);
+        return new Result<>(true,Constants.Status.SUCCESS);
     }
 
 

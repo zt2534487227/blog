@@ -1,7 +1,7 @@
 package com.zt.blog.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.zt.blog.common.constant.StatusCode;
+import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.model.Menu;
 import io.swagger.annotations.Api;
@@ -25,7 +25,7 @@ public class MenuController {
     @ApiOperation("获取首页菜单列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Menu>> getList(){
-        Result<List<Menu>> result=new Result<>(true,StatusCode.Status.SUCCESS);
+        Result<List<Menu>> result=new Result<>(true,Constants.Status.SUCCESS);
         Menu menu=new Menu();
         List<Menu> menus = menu.selectList(new QueryWrapper<Menu>().lambda()
                 .eq(Menu::getMenuStatus, 1).orderByAsc(Menu::getShowIndex));
