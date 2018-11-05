@@ -39,7 +39,7 @@ public class CommentController {
     public Result<List<Comment>> getMyComment(){
         Result<List<Comment>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
-        List<Comment> comments = commentService.selectList(new QueryWrapper<Comment>().lambda()
+        List<Comment> comments = commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getBloggerId, user.getId()).orderByDesc(Comment::getCreateTime));
         result.setData(comments);
         return result;
@@ -52,7 +52,7 @@ public class CommentController {
         if (null == articleId){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        commentService.selectList(new QueryWrapper<Comment>().lambda()
+        commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getArticleId,articleId).eq(Comment::getParentId,0));
 
         return null;
@@ -63,7 +63,7 @@ public class CommentController {
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
 
-        commentService.selectList(new QueryWrapper<Comment>().lambda()
+        commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getParentId,commentId));
 
         return null;
@@ -87,7 +87,7 @@ public class CommentController {
         if (null ==id ){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        commentService.deleteById(id);
+        commentService.removeById(id);
         return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 

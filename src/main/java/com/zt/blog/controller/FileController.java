@@ -85,7 +85,7 @@ public class FileController {
         attach.setFilePath(localPath+separator+uuid);
         attach.setFileSize(new BigDecimal(fileSize));
         attach.setFileType(ext);
-        attachService.insert(attach);
+        attachService.save(attach);
         Map<String,Object> map=Maps.newHashMap();
         map.put("fileName",attach.getFileName());
         map.put("filePath",attach.getFilePath());
@@ -103,7 +103,7 @@ public class FileController {
     @RequestMapping(value = "/{id}",method=RequestMethod.GET)
     public void download(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response){
         if (!StringUtils.isEmpty(id)){
-            Attach attach = attachService.selectById(id);
+            Attach attach = attachService.getById(id);
             if (null != attach){
                 try (InputStream inputStream = new FileInputStream(new File(attach.getFilePath()))) {
                     OutputStream outputStream = response.getOutputStream();

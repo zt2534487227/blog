@@ -1,7 +1,5 @@
 package com.zt.blog.common.constant;
 
-import com.zt.blog.model.Article;
-
 /**
  * @Author: ZhouTian
  * @Description:

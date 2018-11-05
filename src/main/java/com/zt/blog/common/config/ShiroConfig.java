@@ -42,6 +42,8 @@ public class ShiroConfig {
         //拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
         filterChainDefinitionMap.put("/","anon");
+        filterChainDefinitionMap.put("/static/**","anon");
+        filterChainDefinitionMap.put("/favicon.ico","anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
         filterChainDefinitionMap.put("/swagger-resources", "anon");
         filterChainDefinitionMap.put("/v2/api-docs", "anon");
@@ -124,7 +126,8 @@ public class ShiroConfig {
     @Bean
     public SessionManager sessionManager(){
         DefaultWebSessionManager sessionManager=new DefaultWebSessionManager();
-        sessionManager.setGlobalSessionTimeout(3600000);
+        //默认30分钟
+        //sessionManager.setGlobalSessionTimeout(3600000);
         sessionManager.setDeleteInvalidSessions(true);
         sessionManager.setSessionValidationSchedulerEnabled(true);
         sessionManager.setSessionValidationScheduler(sessionValidationScheduler());

@@ -42,7 +42,7 @@ public class ConcernController {
     public Result<List<Concern>> getList(){
         Result<List<Concern>> result=new Result<>(true,StatusCode.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
-        List<Concern> concerns = concernService.selectList(new QueryWrapper<Concern>().lambda()
+        List<Concern> concerns = concernService.list(new QueryWrapper<Concern>().lambda()
                 .eq(Concern::getUserId, user.getId()));
         result.setData(concerns);
         return result;
@@ -58,7 +58,7 @@ public class ConcernController {
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
         User own = SessionUtil.getSessionUser();
-        User user = userService.selectById(userId);
+        User user = userService.getById(userId);
         if (null == user){
             return new Result(StatusCode.Status.USER_NOT_EXISTS);
         }
@@ -66,7 +66,7 @@ public class ConcernController {
         concern.setConcernId(userId);
         concern.setConcernName(user.getNickName());
         concern.setUserId(own.getId());
-        boolean insert = concernService.insert(concern);
+        boolean insert = concernService.save(concern);
         if (insert){
             result=new Result(true,StatusCode.Status.SUCCESS);
         }else {
@@ -82,7 +82,7 @@ public class ConcernController {
         if (null ==id ){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        concernService.deleteById(id);
+        concernService.removeById(id);
         return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 

@@ -6,6 +6,8 @@ import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.Md5Encrypt;
 import com.zt.blog.common.util.VerifyCodeUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +58,17 @@ public class VerifyCodeController {
         ImageIO.write(bufferedImage, "JPEG", response.getOutputStream());
     }
 
+    @ApiOperation("校验验证码")
+    @ApiImplicitParams(
+           @ApiImplicitParam(name = "verifyCode",value = "验证码",required = true)
+    )
     @RequestMapping(value="/checkVerifyCode",method=RequestMethod.POST)
     private Result<Boolean> checkVerifyCode(String verifyCode, HttpServletRequest request) {
         Result<Boolean> result=new Result<>(true,StatusCode.Status.SUCCESS);
         result.setData(false);
         if (!StringUtils.isEmpty(verifyCode)) {
             HttpSession session = request.getSession();
-            String sessioncode = (String) session.getAttribute("verifyCode");
+            String sessioncode = (String) session.getAttribute(BaseConstants.SESSION_VERIFYCODE);
             session.removeAttribute(BaseConstants.SESSION_VERIFYCODE);
             // 加密后验证
             String sha1hexverifycode = Md5Encrypt.md5(verifyCode.toLowerCase());

@@ -232,9 +232,4 @@ public class VerifyCodeUtil {
 		return bufferedImage;
 	}
 
-	public static void main(String[] args) {
-		String s = generateTextCode(2, 20, null);
-		System.out.println(s);
-	}
-
 }

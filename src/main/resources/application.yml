@@ -6,8 +6,6 @@ zt:
     type: com.alibaba.druid.pool.DruidDataSource
     entity-packages: com.zt.blog.model
     driver-class-name: com.mysql.cj.jdbc.Driver
-swagger:
-  enable: true
 file:
   rootPath: D:\\upload
 image:
@@ -18,4 +16,7 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   profiles:
-    active: pro
+    active: dev
+  mvc:
+    view:
+      suffix: .html

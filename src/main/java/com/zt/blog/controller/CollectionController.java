@@ -47,7 +47,7 @@ public class CollectionController {
     public Result<List<Collection>> getList(HttpServletRequest request){
         User user = SessionUtil.getSessionUser();
         Result<List<Collection>> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        List<Collection> collections = collectionService.selectList(new QueryWrapper<Collection>().lambda()
+        List<Collection> collections = collectionService.list(new QueryWrapper<Collection>().lambda()
                 .eq(Collection::getUserId, user.getId()));
         result.setData(collections);
         return result;
@@ -63,7 +63,7 @@ public class CollectionController {
            return new Result(StatusCode.Status.PARAM_EMPTY);
         }
         User user = SessionUtil.getSessionUser();
-        Article article = articleService.selectById(articleId);
+        Article article = articleService.getById(articleId);
         if (null == article){
             return new Result(StatusCode.Status.ARTICLE_NOT_EXISTS);
         }
@@ -72,7 +72,7 @@ public class CollectionController {
         collection.setUserId(user.getId());
         collection.setArticleTitle(article.getTitle());
         collection.setArticleAuthor(article.getUserName());
-        boolean insert = collectionService.insert(collection);
+        boolean insert = collectionService.save(collection);
         if (insert){
             result=new Result(true,StatusCode.Status.SUCCESS);
         }else {
@@ -88,7 +88,7 @@ public class CollectionController {
         if (null ==id ){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        collectionService.deleteById(id);
+        collectionService.removeById(id);
         return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 

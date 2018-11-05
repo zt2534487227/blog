@@ -35,7 +35,7 @@ public class CategoryController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Category>> list(){
         Result<List<Category>> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        List<Category> categoryList = categoryService.selectList(new QueryWrapper<Category>().lambda()
+        List<Category> categoryList = categoryService.list(new QueryWrapper<Category>().lambda()
                 .eq(Category::getCategoryStatus, 1).orderByAsc(Category::getShowIndex));
         result.setData(categoryList);
         return result;

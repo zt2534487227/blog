@@ -53,9 +53,12 @@ public class ArticleController {
             pageNo=10;
         }
         Page<Article> page=new Page<>(pageNo,pageSize);
-        articleService.selectPage(page, new QueryWrapper<Article>().lambda()
+        articleService.page(page, new QueryWrapper<Article>().lambda()
+                .select(Article::getId,Article::getTitle,Article::getPublishTime,Article::getUserId,Article::getUserName
+                    ,Article::getClickHit,Article::getReplyHit)
                 .eq(Article::getShowMode,1) //公开
                 .eq(Article::getArticleStatus,1)//已发布
+                .orderByDesc(Article::getPublishTime)
                 );
         result.setData(page);
         return result;
@@ -71,7 +74,7 @@ public class ArticleController {
             return new Result<>(StatusCode.Status.PARAM_EMPTY);
         }
         Result<Article> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        Article article = articleService.selectById(id);
+        Article article = articleService.getById(id);
         result.setData(article);
         return result;
     }
@@ -98,7 +101,7 @@ public class ArticleController {
         User user = SessionUtil.getSessionUser();
         article.setUserId(user.getId());
         article.setUserName(user.getNickName());
-        boolean insert = articleService.insert(article);
+        boolean insert = articleService.save(article);
         if (insert){
             result=new Result(true,StatusCode.Status.SUCCESS);
         }else {
@@ -138,7 +141,7 @@ public class ArticleController {
         if (null ==id ){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        articleService.deleteById(id);
+        articleService.removeById(id);
         return new Result<>(true,StatusCode.Status.SUCCESS);
     }
 

@@ -6,6 +6,7 @@ import com.zt.blog.common.constant.BaseConstants;
 import com.zt.blog.common.constant.StatusCode;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.util.Md5Encrypt;
+import com.zt.blog.common.util.SessionUtil;
 import com.zt.blog.common.util.VerifyCodeUtil;
 import com.zt.blog.model.User;
 import com.zt.blog.service.UserService;
@@ -41,17 +42,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "根据id获取用户信息")
-    @ApiImplicitParams({
-        @ApiImplicitParam(name = "id",value = "用户id",required = true)
-    })
+    @ApiOperation(value = "获取用户信息")
     @RequestMapping(value = "/user/getUserInfo",method = RequestMethod.GET)
-    public Result<User> getUserInfo(Integer id){
-        if (null == id){
-            return new Result<>(StatusCode.Status.PARAM_EMPTY);
-        }
+    public Result<User> getUserInfo(){
         Result<User> result=new Result<>(true,StatusCode.Status.SUCCESS);
-        User user = userService.selectById(id);
+        User user = SessionUtil.getSessionUser();
         result.setData(user);
         return result;
     }
@@ -67,11 +62,11 @@ public class UserController {
         if (StringUtils.isEmpty(userAccount)||StringUtils.isEmpty(nickName)||StringUtils.isEmpty(password)){
             return new Result(StatusCode.Status.PARAM_EMPTY);
         }
-        String uPattern = "^[a-zA-Z0-9_]{4,16}$";
+        String uPattern = "^[a-zA-Z0-9_]{2,16}$";
         if (!Pattern.matches(uPattern,userAccount)) {
             return new Result(StatusCode.Status.PARAM_ERROR);
         }
-        User register = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
+        User register = userService.getOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
         if (null != register){
             return new Result(StatusCode.Status.USER_HAS_EXISTS);
         }
@@ -82,7 +77,7 @@ public class UserController {
         String checkCode = VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED, 6, null);
         user.setCheckCode(checkCode);
         user.setPassword(Md5Encrypt.md5(password+checkCode));
-        boolean insert = userService.insert(user);
+        boolean insert = userService.save(user);
         if (insert){
             result=new Result(true,StatusCode.Status.SUCCESS);
         }else {
@@ -111,7 +106,7 @@ public class UserController {
             return result;
         }
         //登录验证
-        User login = userService.selectOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
+        User login = userService.getOne(new QueryWrapper<User>().lambda().eq(User::getUserAccount, userAccount));
         if (null == login){
             result=new Result<User>(StatusCode.Status.USER_LOGIN_ERROR);
             return result;

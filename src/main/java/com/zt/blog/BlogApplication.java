@@ -19,4 +19,14 @@ public class BlogApplication extends SpringBootServletInitializer {
 		return builder.sources(BlogApplication.class);
 	}
 
+	/*public static class WebConfigurer implements WebMvcConfigurer {
+
+		@Override
+		public void addResourceHandlers(ResourceHandlerRegistry registry) {
+			registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/favicon.ico");
+		}
+
+
+	}*/
+
 }

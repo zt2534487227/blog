@@ -55,7 +55,11 @@ public class DataSourceConfig implements EnvironmentAware {
         dataSource.setMinIdle(dataSourceProps.getMinIdle());
         dataSource.setDefaultAutoCommit(dataSourceProps.isDefaultAutoCommit());
         dataSource.setTestOnBorrow(dataSourceProps.isTestOnBorrow());
+        dataSource.setTestWhileIdle(dataSourceProps.isTestWhileIdle());
+        dataSource.setMaxWait(dataSourceProps.getMaxWait());
+        dataSource.setTimeBetweenEvictionRunsMillis(dataSourceProps.getTimeBetweenEvictionRunsMillis());
         dataSource.setValidationQuery(dataSourceProps.getValidationQuery());
+        dataSource.setValidationQueryTimeout(dataSourceProps.getValidationQueryTimeout());
         return  dataSource;
     }
 
@@ -73,7 +77,7 @@ public class DataSourceConfig implements EnvironmentAware {
         MybatisConfiguration configuration = new MybatisConfiguration();
         configuration.setDefaultScriptingLanguage(MybatisXMLLanguageDriver.class);
         configuration.setJdbcTypeForNull(JdbcType.NULL);
-        configuration.setMapUnderscoreToCamelCase(true);
+        configuration.setMapUnderscoreToCamelCase(false);
         sqlSessionFactoryBean.setConfiguration(configuration);
         sqlSessionFactoryBean.setGlobalConfig(new GlobalConfig()
                 //.setSqlInjector(new LogicSqlInjector())   //sql注入器
@@ -83,7 +87,6 @@ public class DataSourceConfig implements EnvironmentAware {
                         //.setLogicNotDeleteValue("0")
                         //.setIdType(IdType.AUTO) //主键策略
                         .setCapitalMode(false) //大写下划线转换
-                        .setColumnUnderline(false)  //驼峰下划线转换
                         .setFieldStrategy(FieldStrategy.NOT_EMPTY)
                 ));
         sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(dataSourceProps.getMapperLocations()));
