@@ -1,10 +1,14 @@
 package com.zt.blog;
 
+import com.zt.blog.interceptor.OpenApiSignInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 @SpringBootApplication
 @MapperScan("com.zt.blog.dao")
@@ -19,14 +23,15 @@ public class BlogApplication extends SpringBootServletInitializer {
 		return builder.sources(BlogApplication.class);
 	}
 
-	/*public static class WebConfigurer implements WebMvcConfigurer {
-
+	@Configuration
+	public static class WebMvcConfig extends WebMvcConfigurationSupport {
 		@Override
-		public void addResourceHandlers(ResourceHandlerRegistry registry) {
-			registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/favicon.ico");
+		//开放接口签名拦截器
+		public void addInterceptors(InterceptorRegistry registry) {
+			OpenApiSignInterceptor interceptor=new OpenApiSignInterceptor();
+			interceptor.setLoginUrl("/api/user/");
+			registry.addInterceptor(interceptor).addPathPatterns("/api/**");
 		}
-
-
-	}*/
+	}
 
 }

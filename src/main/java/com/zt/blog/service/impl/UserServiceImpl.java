@@ -1,10 +1,14 @@
 package com.zt.blog.service.impl;
 
-import com.zt.blog.model.User;
-import com.zt.blog.dao.UserDao;
-import com.zt.blog.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.zt.blog.dao.UserDao;
+import com.zt.blog.model.User;
+import com.zt.blog.model.UserToken;
+import com.zt.blog.service.UserService;
+import com.zt.blog.service.UserTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>
@@ -17,4 +21,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserService {
 
+    @Autowired
+    private UserTokenService userTokenService;
+
+    @Override
+    public User getByToken(String token) {
+        if (StringUtils.isEmpty(token)){
+            return null;
+        }
+        UserToken userToken = userTokenService.getByToken(token);
+        if (null == userToken){
+            return null;
+        }
+        return baseMapper.selectById(userToken.getUserId());
+    }
 }

@@ -46,6 +46,9 @@ public class CollectionController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Collection>> getList(HttpServletRequest request){
         User user = SessionUtil.getSessionUser();
+        if (null == user){
+            return new Result<>(Constants.Status.USER_NOT_LOGIN);
+        }
         Result<List<Collection>> result=new Result<>(true,Constants.Status.SUCCESS);
         List<Collection> collections = collectionService.list(new QueryWrapper<Collection>().lambda()
                 .eq(Collection::getUserId, user.getId()));

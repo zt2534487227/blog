@@ -142,3 +142,13 @@ CREATE TABLE `t_user` (
   `version` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '版本号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='用户表';
+
+DROP TABLE IF EXISTS `t_user_token`;
+CREATE TABLE `t_user_token` (
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `userId` int(11) NOT NULL COMMENT '用户id',
+  `token` varchar(255) NOT NULL COMMENT 'token',
+  `createTime` datetime NOT NULL COMMENT '创建时间',
+  `expireTime` datetime NOT NULL COMMENT '失效时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

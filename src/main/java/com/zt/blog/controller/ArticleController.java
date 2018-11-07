@@ -1,7 +1,9 @@
 package com.zt.blog.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
@@ -63,6 +65,31 @@ public class ArticleController {
         result.setData(page);
         return result;
     }
+
+    @ApiOperation("我的文章列表，分页查询")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "pageSize",value = "每页显示数量",defaultValue = "10"),
+        @ApiImplicitParam(name = "pageNo",value = "页数",defaultValue = "1")
+    })
+    @RequestMapping(value = "/myArticleList",method = RequestMethod.POST)
+    public Result<IPage<Article>> myArticleList(Integer pageSize,Integer pageNo){
+        User user = SessionUtil.getSessionUser();
+        if (null == user){
+            return new Result<>(Constants.Status.USER_NOT_LOGIN);
+        }
+        IPage<Article> page=new Page<>();
+        if (null != pageSize && pageSize > 0){
+            page.setSize(pageSize);
+        }
+        if (null != pageNo && pageNo > 0){
+            page.setCurrent(pageNo);
+        }
+        page = articleService.page(page, new LambdaQueryWrapper<>(new Article()).eq(Article::getUserId, user.getId()));
+        Result<IPage<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
+        result.setData(page);
+        return result;
+    }
+
 
     @ApiOperation(value = "根据id获取文章详情")
     @ApiImplicitParams({

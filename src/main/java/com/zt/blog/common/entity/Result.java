@@ -43,7 +43,12 @@ public class Result<T> implements Serializable{
         this.code=status.getCode();
     }
 
-    public Result(boolean success, String msg) {
+	public Result(String code,String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
+
+	public Result(boolean success, String msg) {
 		this.success = success;
 		this.msg = msg;
 	}

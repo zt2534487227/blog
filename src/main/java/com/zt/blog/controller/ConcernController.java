@@ -40,8 +40,11 @@ public class ConcernController {
     @ApiOperation("我的关注列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<List<Concern>> getList(){
-        Result<List<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
+        if (null == user){
+            return new Result<>(Constants.Status.USER_NOT_LOGIN);
+        }
+        Result<List<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
         List<Concern> concerns = concernService.list(new QueryWrapper<Concern>().lambda()
                 .eq(Concern::getUserId, user.getId()));
         result.setData(concerns);

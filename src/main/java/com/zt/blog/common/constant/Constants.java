@@ -34,6 +34,7 @@ public interface Constants {
          */
         PARAM_EMPTY("04","参数为空"),
         PARAM_ERROR("08","参数不合法"),
+        RESULT_DATA_EMPTY("09","返回数据为空"),
         /**
          * 服务器内部错误
          */
@@ -47,6 +48,7 @@ public interface Constants {
          */
         CHECK_CODE_ERROR("07","验证码错误"),
         REQUEST_ERROR("08","请求错误"),
+        TIMESTAMP_INVALID("09","时间搓失效"),
         /**
          * 用户未登录
          */
@@ -57,7 +59,8 @@ public interface Constants {
          */
         USER_LOGIN_ERROR("13","账号或密码错误"),
         USER_HAS_EXISTS("14","该账号已存在"),
-
+        TOKEN_NOT_EXISTS("16","token不存在"),
+        TOKEN_EXPIRED("17","token过期"),
         ARTICLE_NOT_EXISTS("21","文章不存在")
         ;
         private String code;
@@ -73,14 +76,6 @@ public interface Constants {
 
         public String getMsg() {
             return msg;
-        }
-        @Override
-        public String toString() {
-            final StringBuffer sb = new StringBuffer("Status{");
-            sb.append("code='").append(code).append('\'');
-            sb.append(", msg='").append(msg).append('\'');
-            sb.append('}');
-            return sb.toString();
         }
     }
 }

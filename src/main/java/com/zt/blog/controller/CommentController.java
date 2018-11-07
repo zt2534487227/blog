@@ -37,8 +37,11 @@ public class CommentController {
     @ApiOperation("获取我的评论")
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public Result<List<Comment>> getMyComment(){
-        Result<List<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
         User user = SessionUtil.getSessionUser();
+        if (null == user){
+            return new Result<>(Constants.Status.USER_NOT_LOGIN);
+        }
+        Result<List<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
         List<Comment> comments = commentService.list(new QueryWrapper<Comment>().lambda()
                 .eq(Comment::getBloggerId, user.getId()).orderByDesc(Comment::getCreateTime));
         result.setData(comments);

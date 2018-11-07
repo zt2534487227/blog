@@ -2,7 +2,7 @@ package com.zt.blog.common.exception;
 
 /**
  * @Author: ZhouTian
- * @Description: dao 层异常
+ * @Description:  数据库异常
  * @Date: 2018/9/11
  */
 public class DaoException extends RuntimeException{
