@@ -9,6 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @MapperScan("com.zt.blog.dao")
@@ -24,7 +25,7 @@ public class BlogApplication extends SpringBootServletInitializer {
 	}
 
 	@Configuration
-	public static class WebMvcConfig extends WebMvcConfigurationSupport {
+	public static class WebMvcConfig implements WebMvcConfigurer {
 		@Override
 		//开放接口签名拦截器
 		public void addInterceptors(InterceptorRegistry registry) {

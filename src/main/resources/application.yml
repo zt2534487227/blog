@@ -15,8 +15,8 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-  profiles:
-    active: dev
+#  profiles:
+#    active: dev
   mvc:
     view:
       suffix: .html

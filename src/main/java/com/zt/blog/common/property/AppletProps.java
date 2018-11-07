@@ -20,7 +20,7 @@ public class AppletProps {
     /**
      * 签名秘钥
      */
-    private static String signSecret;
+    private static String signSecret="zRiN00nwdY1C1Kfruk5VWQ5e";
 
     public static String getSignSecret() {
         return signSecret;
