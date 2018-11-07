@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
  * @Date: 2018/11/6
  */
 @Data
-@ConfigurationProperties(prefix = "")
+@ConfigurationProperties(prefix = "blog.applet")
 @Component
 public class AppletProps {
     private String appId;
     private String secret;
-    private String grantType="authorization_code";
-    private String url="https://api.weixin.qq.com/sns/jscode2session";
+    private String grantType;
+    private String url;
     /**
      * 签名秘钥
      */
-    private static String signSecret="zRiN00nwdY1C1Kfruk5VWQ5e";
+    private static String signSecret;
 
     public static String getSignSecret() {
         return signSecret;

@@ -48,12 +48,17 @@ public class OpenApiSignInterceptor  implements HandlerInterceptor {
             }
             String sign = request.getParameter("sign");
             String timeStamp = request.getParameter("timeStamp");
+            String appId = request.getParameter("appId");
+            if (StringUtils.isEmpty(timeStamp)||StringUtils.isEmpty(sign)||StringUtils.isEmpty(appId)){
+                return printJson(response,Constants.Status.PARAM_EMPTY);
+            }
             Date date = DateUtil.getDate(timeStamp);
-            if (date.after(DateUtils.addMinutes(new Date(),1))){//时间搓失效 超过一分钟
+            Date checkDate = DateUtils.addMinutes(new Date(), 1);
+            if (date.after(checkDate)){//时间搓失效 超过一分钟
                 return printJson(response,Constants.Status.TIMESTAMP_INVALID);
             }
             //判断签名是否正确
-            String signKey=AppletProps.getSignSecret() +"&"+timeStamp;
+            String signKey=AppletProps.getSignSecret() +"&@!"+timeStamp+"#*("+appId;
             String signMd5 = Md5Encrypt.md5(signKey);
             if (!signMd5.equalsIgnoreCase(sign)) {
                 return printJson(response,Constants.Status.SIGN_ERROR);
@@ -76,7 +81,6 @@ public class OpenApiSignInterceptor  implements HandlerInterceptor {
         ResponseUtils.renderJson(response, JSON.toJSONString(result));
         return false;
     }
-
 
     public String getLoginUrl() {
         return loginUrl;

@@ -1,5 +1,6 @@
 package com.zt.blog.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -8,6 +9,7 @@ import com.zt.blog.common.constant.Constants;
 import com.zt.blog.common.entity.Result;
 import com.zt.blog.common.property.AppletProps;
 import com.zt.blog.common.util.DateUtil;
+import com.zt.blog.common.util.HttpClientUtil;
 import com.zt.blog.common.util.Md5Encrypt;
 import com.zt.blog.model.*;
 import com.zt.blog.service.*;
@@ -90,13 +92,12 @@ public class OpenController {
         params.put("grant_type", appletProps.getGrantType());
         //http请求 获取微信的session_key和openId
         String url = appletProps.getUrl();
-
-
-
-
-        String openId="";
+        String res = HttpClientUtil.httpPost(url, params);
+        JSONObject jsonObject=(JSONObject) JSONObject.parse(res);
+        System.out.println(jsonObject);
+        String openid= jsonObject.getString("openid");
         Result<UserToken> result=new Result<>(true,Constants.Status.SUCCESS);
-        User user = userService.getOne(new LambdaQueryWrapper<>(new User()).eq(User::getWxId, openId));
+        User user = userService.getOne(new LambdaQueryWrapper<>(new User()).eq(User::getWxId, openid));
         if (null != user){
             UserToken userToken = userTokenService.generateToken(user.getId());
             userToken.setUserName(user.getNickName());
@@ -114,7 +115,7 @@ public class OpenController {
     public Result checkLogin(HttpServletRequest request){
         String token = request.getParameter("token");
         if (StringUtils.isEmpty(token)){
-            return new Result(Constants.Status.PARAM_EMPTY);
+            return new Result(Constants.Status.TOKEN_EXPIRED);
         }
         UserToken userToken = userTokenService.getByToken(token);
         if (null == userToken){
@@ -135,9 +136,6 @@ public class OpenController {
     @RequestMapping("/logout")
     public Result logout(HttpServletRequest request){
         String token = request.getParameter("token");
-        if (StringUtils.isEmpty(token)){
-            return new Result(Constants.Status.PARAM_EMPTY);
-        }
         UserToken userToken = userTokenService.getByToken(token);
         if (null != userToken){
             userToken.setExpireTime(new Date());
@@ -183,7 +181,9 @@ public class OpenController {
         if (null == user){
             return new Result(Constants.Status.USER_NOT_LOGIN);
         }
-        IPage<Article> page=new Page<>();
+        int pageSize = getParamInt(request, "pageSize", 10);
+        int pageNo = getParamInt(request, "pageNo", 1);
+        IPage<Article> page=new Page<>(pageNo,pageSize);
         page=articleService.page(page,new LambdaQueryWrapper<>(new Article())
             .eq(Article::getUserId,user.getId()));
         Result<IPage<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
@@ -204,7 +204,9 @@ public class OpenController {
         if (null == user){
             return new Result(Constants.Status.USER_NOT_LOGIN);
         }
-        IPage<Collection> page=new Page<>();
+        int pageSize = getParamInt(request, "pageSize", 10);
+        int pageNo = getParamInt(request, "pageNo", 1);
+        IPage<Collection> page=new Page<>(pageNo,pageSize);
         page=collectionService.page(page,new LambdaQueryWrapper<>(new Collection())
                 .eq(Collection::getUserId,user.getId()));
         Result<IPage<Collection>> result=new Result<>(true,Constants.Status.SUCCESS);
@@ -224,7 +226,9 @@ public class OpenController {
         if (null == user){
             return new Result(Constants.Status.USER_NOT_LOGIN);
         }
-        IPage<Comment> page=new Page<>();
+        int pageSize = getParamInt(request, "pageSize", 10);
+        int pageNo = getParamInt(request, "pageNo", 1);
+        IPage<Comment> page=new Page<>(pageNo,pageSize);
         commentService.page(page,new LambdaQueryWrapper<>(new Comment())
             .eq(Comment::getUserId,user.getId()));
         Result<IPage<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
@@ -244,7 +248,9 @@ public class OpenController {
         if (null == user){
             return new Result(Constants.Status.USER_NOT_LOGIN);
         }
-        IPage<Concern> page=new Page<>();
+        int pageSize = getParamInt(request, "pageSize", 10);
+        int pageNo = getParamInt(request, "pageNo", 1);
+        IPage<Concern> page=new Page<>(pageNo,pageSize);
         concernService.page(page,new LambdaQueryWrapper<>(new Concern())
             .eq(Concern::getUserId,user.getId()));
         Result<IPage<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
@@ -259,11 +265,16 @@ public class OpenController {
      */
     @RequestMapping("/search")
     public Result search(HttpServletRequest request){
-
-
-
-
-        return null;
+        int pageSize = getParamInt(request, "pageSize", 10);
+        int pageNo = getParamInt(request, "pageNo", 1);
+        IPage<Article> page=new Page<>(pageNo,pageSize);
+        articleService.page(page, new LambdaQueryWrapper<>(new Article())
+                .eq(Article::getShowMode, 1) //公开
+                .eq(Article::getArticleStatus, 1)//已发布
+                .orderByDesc(Article::getPublishTime));
+        Result<IPage<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
+        result.setData(page);
+        return result;
     }
 
 
@@ -282,6 +293,19 @@ public class OpenController {
         Result<Article> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(article);
         return result;
+    }
+
+
+    private int getParamInt(HttpServletRequest request,String param,int deValue){
+        try {
+            String parameter = request.getParameter(param);
+            if (StringUtils.isEmpty(parameter)){
+                return Integer.parseInt(parameter);
+            }
+            return deValue;
+        }catch (Exception e){
+            return deValue;
+        }
     }
 
 }

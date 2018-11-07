@@ -34,7 +34,7 @@ public class UserTokenServiceImpl extends ServiceImpl<UserTokenDao, UserToken> i
             userToken=new UserToken();
             userToken.setUserId(userId);
             userToken.setCreateTime(new Date());
-            String token=System.currentTimeMillis()+VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED,5,null);
+            String token=System.currentTimeMillis()+VerifyCodeUtil.generateTextCode(VerifyCodeUtil.TYPE_ALL_MIXED,8,null);
             userToken.setToken(token);
             userToken.setExpireTime(DateUtils.addDays(new Date(),7));
         }else {
