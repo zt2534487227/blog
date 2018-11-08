@@ -2,7 +2,6 @@ package com.zt.blog.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Maps;
 import com.zt.blog.common.constant.Constants;
@@ -59,7 +58,7 @@ public class OpenController {
         if (StringUtils.isEmpty(userAccount)||StringUtils.isEmpty(password)){
             return new Result(Constants.Status.PARAM_EMPTY);
         }
-        User user = userService.getOne(new LambdaQueryWrapper<>(new User()).eq(User::getUserAccount, userAccount));
+        User user = userService.getByAccount(userAccount);
         if (null == user){
             return new Result(Constants.Status.USER_NOT_EXISTS);
         }
@@ -97,7 +96,7 @@ public class OpenController {
         System.out.println(jsonObject);
         String openid= jsonObject.getString("openid");
         Result<UserToken> result=new Result<>(true,Constants.Status.SUCCESS);
-        User user = userService.getOne(new LambdaQueryWrapper<>(new User()).eq(User::getWxId, openid));
+        User user = userService.getByWxId(openid);
         if (null != user){
             UserToken userToken = userTokenService.generateToken(user.getId());
             userToken.setUserName(user.getNickName());
@@ -183,10 +182,12 @@ public class OpenController {
         }
         int pageSize = getParamInt(request, "pageSize", 10);
         int pageNo = getParamInt(request, "pageNo", 1);
-        IPage<Article> page=new Page<>(pageNo,pageSize);
-        page=articleService.page(page,new LambdaQueryWrapper<>(new Article())
+        Page<Article> page=new Page<>(pageNo,pageSize);
+        articleService.page(page,new LambdaQueryWrapper<>(new Article())
+            .select(Article::getId,Article::getTitle,Article::getCreateTime,Article::getArticleStatus
+                ,Article::getShowMode)
             .eq(Article::getUserId,user.getId()));
-        Result<IPage<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
+        Result<Page<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(page);
         return result;
     }
@@ -206,10 +207,10 @@ public class OpenController {
         }
         int pageSize = getParamInt(request, "pageSize", 10);
         int pageNo = getParamInt(request, "pageNo", 1);
-        IPage<Collection> page=new Page<>(pageNo,pageSize);
-        page=collectionService.page(page,new LambdaQueryWrapper<>(new Collection())
+        Page<Collection> page=new Page<>(pageNo,pageSize);
+        collectionService.page(page,new LambdaQueryWrapper<>(new Collection())
                 .eq(Collection::getUserId,user.getId()));
-        Result<IPage<Collection>> result=new Result<>(true,Constants.Status.SUCCESS);
+        Result<Page<Collection>> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(page);
         return result;
     }
@@ -228,10 +229,10 @@ public class OpenController {
         }
         int pageSize = getParamInt(request, "pageSize", 10);
         int pageNo = getParamInt(request, "pageNo", 1);
-        IPage<Comment> page=new Page<>(pageNo,pageSize);
+        Page<Comment> page=new Page<>(pageNo,pageSize);
         commentService.page(page,new LambdaQueryWrapper<>(new Comment())
             .eq(Comment::getUserId,user.getId()));
-        Result<IPage<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
+        Result<Page<Comment>> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(page);
         return result;
     }
@@ -250,10 +251,10 @@ public class OpenController {
         }
         int pageSize = getParamInt(request, "pageSize", 10);
         int pageNo = getParamInt(request, "pageNo", 1);
-        IPage<Concern> page=new Page<>(pageNo,pageSize);
+        Page<Concern> page=new Page<>(pageNo,pageSize);
         concernService.page(page,new LambdaQueryWrapper<>(new Concern())
             .eq(Concern::getUserId,user.getId()));
-        Result<IPage<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
+        Result<Page<Concern>> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(page);
         return result;
     }
@@ -267,12 +268,17 @@ public class OpenController {
     public Result search(HttpServletRequest request){
         int pageSize = getParamInt(request, "pageSize", 10);
         int pageNo = getParamInt(request, "pageNo", 1);
-        IPage<Article> page=new Page<>(pageNo,pageSize);
+        String title = request.getParameter("title");
+        Page<Article> page=new Page<>(pageNo,pageSize);
         articleService.page(page, new LambdaQueryWrapper<>(new Article())
+                .select(Article::getId,Article::getTitle,Article::getUserId,Article::getUserName
+                    ,Article::getClickHit,Article::getReplyHit,Article::getDigest,Article::getTags
+                    ,Article::getPublishTime)
                 .eq(Article::getShowMode, 1) //公开
                 .eq(Article::getArticleStatus, 1)//已发布
+                .like(!StringUtils.isEmpty(title),Article::getTitle,title)  //搜索条件 文章标题
                 .orderByDesc(Article::getPublishTime));
-        Result<IPage<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
+        Result<Page<Article>> result=new Result<>(true,Constants.Status.SUCCESS);
         result.setData(page);
         return result;
     }

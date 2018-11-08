@@ -15,4 +15,8 @@ public interface UserService extends IService<User> {
 
     User getByToken(String token);
 
+    User getByAccount(String userAccount);
+
+    User getByWxId(String wxId);
+
 }

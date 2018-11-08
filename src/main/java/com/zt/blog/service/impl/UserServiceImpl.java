@@ -1,5 +1,6 @@
 package com.zt.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zt.blog.dao.UserDao;
 import com.zt.blog.model.User;
@@ -34,5 +35,21 @@ public class UserServiceImpl extends ServiceImpl<UserDao, User> implements UserS
             return null;
         }
         return baseMapper.selectById(userToken.getUserId());
+    }
+
+    @Override
+    public User getByAccount(String userAccount) {
+        if (StringUtils.isEmpty(userAccount)){
+            return null;
+        }
+        return baseMapper.selectOne(new LambdaQueryWrapper<>(new User()).eq(User::getUserAccount, userAccount));
+    }
+
+    @Override
+    public User getByWxId(String wxId) {
+        if (StringUtils.isEmpty(wxId)){
+            return null;
+        }
+        return baseMapper.selectOne(new LambdaQueryWrapper<>(new User()).eq(User::getWxId, wxId));
     }
 }
