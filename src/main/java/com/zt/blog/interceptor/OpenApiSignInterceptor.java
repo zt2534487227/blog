@@ -53,8 +53,9 @@ public class OpenApiSignInterceptor  implements HandlerInterceptor {
                 return printJson(response,Constants.Status.PARAM_EMPTY);
             }
             Date date = DateUtil.getDate(timeStamp);
-            Date checkDate = DateUtils.addMinutes(new Date(), 1);
-            if (date.after(checkDate)){//时间搓失效 超过一分钟
+            Date oneMinAfter = DateUtils.addMinutes(new Date(), 1);
+            Date oneMinBefore = DateUtils.addMinutes(new Date(), -1);
+            if (date.before(oneMinBefore)||date.after(oneMinAfter)){//时间搓失效 超过一分钟
                 return printJson(response,Constants.Status.TIMESTAMP_INVALID);
             }
             //判断签名是否正确
