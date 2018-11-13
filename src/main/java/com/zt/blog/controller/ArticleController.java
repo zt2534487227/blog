@@ -57,7 +57,7 @@ public class ArticleController {
         Page<Article> page=new Page<>(pageNo,pageSize);
         articleService.page(page, new QueryWrapper<Article>().lambda()
                 .select(Article::getId,Article::getTitle,Article::getPublishTime,Article::getUserId,Article::getUserName
-                    ,Article::getClickHit,Article::getReplyHit)
+                    ,Article::getClickHit,Article::getReplyHit,Article::getTags,Article::getDigest)
                 .eq(Article::getShowMode,1) //公开
                 .eq(Article::getArticleStatus,1)//已发布
                 .orderByDesc(Article::getPublishTime)
